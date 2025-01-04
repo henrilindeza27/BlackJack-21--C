@@ -33,7 +33,7 @@ int ft_ask_play()
     return option;
 }
 
-int ft_player_play(char ***deck, char ***player_hand, size_t *player_hand_size, char **dealer_hand, size_t dealer_hand_size ,int *cards_played, int number_decks, char *nickname, int *flag)
+int ft_player_play(char ***deck, char ***player_hand, size_t *player_hand_size, char **dealer_hand, size_t dealer_hand_size ,int *cards_played, int number_decks, PLAYER player, double bet, int *flag)
 {
     int option;
     do
@@ -43,20 +43,24 @@ int ft_player_play(char ***deck, char ***player_hand, size_t *player_hand_size, 
         {    
             system("clear");
             ft_player_single_play(deck, player_hand, player_hand_size, cards_played, number_decks);
-            ft_print_played_cards(1, *player_hand, dealer_hand, *player_hand_size, dealer_hand_size, nickname);
+            ft_print_played_cards(1, *player_hand, dealer_hand, *player_hand_size, dealer_hand_size, player.nickname);
             if(ft_calculate_hand_points(*player_hand, *player_hand_size, 0 , 0) > 21)
                 return 1;
                 
         }
         else if(option == 2)
         {
-            *flag = 2;
             system("clear");
-            ft_player_single_play(deck, player_hand, player_hand_size, cards_played, number_decks);
-            ft_print_played_cards(1, *player_hand, dealer_hand, *player_hand_size, dealer_hand_size, nickname);
-            if(ft_calculate_hand_points(*player_hand, *player_hand_size, 0 , 0) > 21)
-                return 1;
-            break;
+            if(player.balance >= bet * 2)
+            {
+                *flag = 2;
+                ft_player_single_play(deck, player_hand, player_hand_size, cards_played, number_decks);
+                ft_print_played_cards(1, *player_hand, dealer_hand, *player_hand_size, dealer_hand_size, player.nickname);
+                if(ft_calculate_hand_points(*player_hand, *player_hand_size, 0 , 0) > 21)
+                    return 1;
+                break;
+            }
+            ft_print_played_cards(1, *player_hand, dealer_hand, *player_hand_size, dealer_hand_size, player.nickname);
         }
     } while(option != 3);
     return 0;
@@ -80,7 +84,7 @@ int ft_dealer_play(char ***deck, char ***dealer_hand, size_t *dealer_hand_size,c
     }
     return 0;    
 }
-int ft_main_play(char ***deck, int *cards_played, int number_decks, char *nickname)
+int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER player, double bet)
 {
     char **player_hand = (char **)malloc(0 * sizeof(char *));
     char **dealer_hand = (char **)malloc(0 * sizeof(char *));
@@ -92,7 +96,7 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, char *nickna
 
     ft_shuffle_deck(deck, number_decks);
     ft_initial_play(deck, cards_played, number_decks, &player_hand, &dealer_hand, &player_hand_size, &dealer_hand_size);
-    ft_print_played_cards(1, player_hand, dealer_hand, player_hand_size, dealer_hand_size, nickname);
+    ft_print_played_cards(1, player_hand, dealer_hand, player_hand_size, dealer_hand_size, player.nickname);
     if(ft_calculate_hand_points(player_hand, player_hand_size, 0 , 0) == 21)
     {
         printf("\n[ BLACKJACK ]");
@@ -101,7 +105,7 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, char *nickna
         return 1 * 3;
     }
 
-    if(ft_player_play(deck, &player_hand, &player_hand_size, dealer_hand, dealer_hand_size, cards_played, number_decks, nickname, &flag))
+    if(ft_player_play(deck, &player_hand, &player_hand_size, dealer_hand, dealer_hand_size, cards_played, number_decks, player, bet, &flag))
     {    
         printf("\n[ PERDEU ]");
         ft_clean_input();
@@ -110,7 +114,7 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, char *nickna
     }
     else
     {        
-        if(ft_dealer_play(deck, &dealer_hand, &dealer_hand_size, player_hand, player_hand_size, cards_played, number_decks, nickname))
+        if(ft_dealer_play(deck, &dealer_hand, &dealer_hand_size, player_hand, player_hand_size, cards_played, number_decks, player.nickname))
         {   
             printf("\n[ GANHOU ]");
             ft_clean_input();
@@ -220,7 +224,7 @@ void ft_play(char ***deck, int number_decks)
 
         aposta = ft_make_bet(jogador.balance);
 
-        int res = ft_main_play(deck, &cards_played, number_decks, jogador.nickname);
+        int res = ft_main_play(deck, &cards_played, number_decks, jogador, aposta);
 
         ft_update_balance(res, &jogador, aposta);
 
