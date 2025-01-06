@@ -12,7 +12,7 @@ all: $(NAME_PROJECT)
 .PHONY: all clean fclean re
 
 $(NAME_PROJECT): $(OBJS)
-	@cc $(FLAGS) $(OBJS) $(RLFLAG) $(LIBFT) -o $(NAME_PROJECT)
+	@cc $(FLAGS) $(OBJS) $(RLFLAG) $(LIBFT) -o $(NAME_PROJECT) -lm
 	@echo  "$(CYAN)Build ($(NAME_PROJECT)): $(GREEN)[Success]$(RESET)"
 
 %.o: %.c

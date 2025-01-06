@@ -10,6 +10,7 @@ int main()
     
     ft_play(decks, N);
     ft_free_deck(decks, N);
+    
 
     return 0;
 }

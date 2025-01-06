@@ -185,9 +185,10 @@ double ft_make_bet(double balance)
 {
     double tmp;
 
+    printf(" Digite 0 para sair\n");
     printf(" 💰 %.2lf €\n", balance);
     printf(" ⛃ Bet: ");
-    while (scanf("%lf", &tmp) <= 0 || tmp <= 0 || tmp > balance)
+    while (scanf("%lf", &tmp) <= 0 || tmp < 0 || tmp > balance)
     {
         printf("[ Valor de aposta inválido ]\n");
         printf(" ⛃ Bet: ");
@@ -199,36 +200,55 @@ double ft_make_bet(double balance)
 
 void ft_update_balance(int result, PLAYER *player, double bet)
 {
-    if(result == 1)
-        player->balance += bet;
-    else if(result == 2)
-        player->balance += 2 * bet;
-    else if(result == -1)
-        player->balance -= bet;
-    else if(result == -2)
-        player->balance -= 2 * bet;
-    else if(result == 3)
-        player->balance += bet * 1.5;
+    double amount_to_change = ft_check_bet(result, bet);
+    player->balance += amount_to_change;
 }
 
 void ft_play(char ***deck, int number_decks)
 {
-    int cards_played = 0;
-    PLAYER jogador = ft_create_player();
-    double aposta;
-    int option =  ft_show_status(jogador);
+    
+    PLAYER jogador;
+    int op = ft_player_menu_logic(&jogador);
+    int is_guest = 0;
 
-    while (option != 2)
+    if(op == 4)
+        return;
+    else if(op == 3)
+        is_guest = 1;
+
+
+    double aposta;
+    int cards_played = 0;
+
+    int option = ft_main_menu(jogador, is_guest);
+
+    while ((option != 3 && !is_guest) || (option != 2 && is_guest))
     {
         system("clear");
 
-        aposta = ft_make_bet(jogador.balance);
+        if (option == 1)
+        {
+            aposta = ft_make_bet(jogador.balance);
+            if (!aposta)
+                option = ft_main_menu(jogador, is_guest);
+            else
+            {
+                int result = ft_main_play(deck, &cards_played, number_decks, jogador, aposta);
 
-        int res = ft_main_play(deck, &cards_played, number_decks, jogador, aposta);
+                ft_update_balance(result, &jogador, aposta);
+                ft_update_stats(&jogador, result, aposta);
+                ft_save_player(&jogador);
 
-        ft_update_balance(res, &jogador, aposta);
-
-        option = ft_show_status(jogador);
+                option = ft_main_menu(jogador, is_guest);
+            }
+        }
+        else if (option == 2 && !is_guest)
+        {
+            ft_show_stats(jogador);
+            ft_clean_input();
+            ft_wait_enter();
+            option = ft_main_menu(jogador, is_guest);
+        }
     }
     
 }

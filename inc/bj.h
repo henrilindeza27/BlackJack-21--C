@@ -6,13 +6,25 @@
 # include <string.h>
 # include <time.h>
 # include <unistd.h>
+#include <ctype.h>
+#include <math.h>
 
+#define file_name "users/players.txt"
 //🂠
 
 typedef struct player
 {
 	char	*nickname;
 	double	balance;
+
+	size_t total_games;
+	size_t total_wins;
+	size_t total_loses;
+	size_t total_draw;
+
+	double max_win;
+	double max_lose;
+
 }			PLAYER;
 
 char		***ft_creat_single_deck(void);
@@ -31,13 +43,24 @@ void		ft_player_single_play(char ***deck, char ***player_hand, size_t *player_ha
 void		ft_dealer_single_play(char ***deck, char ***dealer_hand, size_t *dealer_hand_size, int *cards_played, int number_decks);
 void		ft_free_hand(char **hand, int hand_size);
 
-PLAYER ft_create_player();
-int ft_show_status(PLAYER player);
+PLAYER ft_create_player(int is_guest);
+int ft_save_player(PLAYER *player);
 void ft_play(char ***deck, int number_decks);
 
 void ft_wait_enter(void);
 void	ft_clean_input(void);
 
 void ft_initial_banner(void);
+int ft_player_menu(void);
+void ft_load_bar(size_t size);
+
+int ft_player_menu_logic(PLAYER *player);
+int ft_check_nickname(char *nickname);
+int ft_load_player(char *nickname, PLAYER *player);
+double ft_check_bet(int result, double bet);
+void ft_update_stats(PLAYER *player, int result, double bet);
+int ft_double_length(double num);
+int ft_main_menu(PLAYER player, int is_guest);
+void ft_show_stats(PLAYER player);
 
 #endif
