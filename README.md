@@ -7,10 +7,11 @@ que não seja negativa ou ultrapasse o saldo
 -**Lista de afazeres**
 - [ ] Funcionalidade do split 
 - [ ] Multi Hands
-- [ ] Interface melhor
-- [ ] Carregar user através de um ficheiro
-- [ ] Guardar status do user no ficheiro
-- [ ] Menu
+- [x] Interface melhor
+- [x] Carregar user através de um ficheiro
+- [x] Guardar status do user no ficheiro
+- [x] Menu
+- [x] Mostrar status
 - [ ] Adiconar saldo caso chegue ao 0
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
