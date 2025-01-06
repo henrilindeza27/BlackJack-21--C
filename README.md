@@ -1,5 +1,6 @@
 # BlackJack 21
 
+(Um erro de formatação no balance)
 O jogo está completamente funcional onde podem introduzir
 o seu nickname, o saldo começa em 1000, qualquer aposta é válida desde
 que não seja negativa ou ultrapasse o saldo
@@ -13,6 +14,7 @@ que não seja negativa ou ultrapasse o saldo
 - [x] Menu
 - [x] Mostrar status
 - [ ] Adiconar saldo caso chegue ao 0
+- [ ] Dar fix a formatação do balance
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
 
