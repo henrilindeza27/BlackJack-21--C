@@ -13,7 +13,7 @@ que não seja negativa ou ultrapasse o saldo
 - [x] Guardar status do user no ficheiro
 - [x] Menu
 - [x] Mostrar status
-- [ ] Adiconar saldo caso chegue ao 0
+- [x] Adiconar saldo caso chegue ao 0
 - [ ] Fazer seguro se o dealer tiver um Às e verificar bj
 - [ ] Se o dealer tiver um 10 verificar se tem bj
 
