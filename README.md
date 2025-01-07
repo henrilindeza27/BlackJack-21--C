@@ -14,7 +14,9 @@ que não seja negativa ou ultrapasse o saldo
 - [x] Menu
 - [x] Mostrar status
 - [ ] Adiconar saldo caso chegue ao 0
-- [ ] Dar fix a formatação do balance
+- [ ] Fazer seguro se o dealer tiver um Às e verificar bj
+- [ ] Se o dealer tiver um 10 verificar se tem bj
+
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
 
