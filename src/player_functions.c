@@ -83,6 +83,8 @@ PLAYER ft_create_player(int is_guest)
     player.total_wins = 0;
     player.total_loses = 0;
     player.total_draw = 0;
+    player.total_win = 0;
+    player.total_lose = 0;
 
     
     return player;
@@ -102,7 +104,7 @@ int ft_save_player(PLAYER *player)
     {
         // Jogador não encontrado, adicionar ao final do arquivo
         fseek(file, 0, SEEK_END);
-        fprintf(file, "%s;%.2f;%zu;%zu;%zu;%zu;%.2f;%.2f\n",
+        fprintf(file, "%s;%.2f;%zu;%zu;%zu;%zu;%.2f;%.2f;%.2f;%.2f\n",
                 player->nickname,
                 player->balance,
                 player->total_games,
@@ -110,7 +112,9 @@ int ft_save_player(PLAYER *player)
                 player->total_loses,
                 player->total_draw,
                 player->max_win,
-                player->max_lose);
+                player->max_lose,
+                player->total_win,
+                player->total_lose);
         fclose(file);
     }
     else
@@ -133,15 +137,17 @@ int ft_save_player(PLAYER *player)
         {
             if (current_pos == pos)
             {
-                fprintf(temp_file, "%s;%.2f;%zu;%zu;%zu;%zu;%.2f;%.2f\n",
-                        player->nickname,
-                        player->balance,
-                        player->total_games,
-                        player->total_wins,
-                        player->total_loses,
-                        player->total_draw,
-                        player->max_win,
-                        player->max_lose);
+                fprintf(temp_file, "%s;%.2f;%zu;%zu;%zu;%zu;%.2f;%.2f;%.2f;%.2f\n",
+                    player->nickname,
+                    player->balance,
+                    player->total_games,
+                    player->total_wins,
+                    player->total_loses,
+                    player->total_draw,
+                    player->max_win,
+                    player->max_lose,
+                    player->total_win,
+                    player->total_lose);
             }
             else
                 fprintf(temp_file, "%s", line);
@@ -176,18 +182,18 @@ int ft_load_player(char *nickname, PLAYER *player)
     {
         line[strcspn(line, "\n")] = '\0';
 
-        char *fields[8];
+        char *fields[10];
         int field_count = 0;
 
         char *token = strtok(line, ";");
-        while (token && field_count < 8)
+        while (token && field_count < 10)
         {
             fields[field_count++] = token;
             token = strtok(NULL, ";");
         }
 
         // Verifica se o nickname corresponde
-        if (field_count == 8 && !strcmp(fields[0], nickname))
+        if (field_count == 10 && !strcmp(fields[0], nickname))
         {
             player->nickname = strdup(fields[0]); 
             player->balance = atof(fields[1]);
@@ -197,7 +203,8 @@ int ft_load_player(char *nickname, PLAYER *player)
             player->total_draw = strtoul(fields[5], NULL, 10);
             player->max_win = atof(fields[6]);
             player->max_lose = atof(fields[7]);
-
+            player->total_win = atof(fields[8]);
+            player->total_lose = atof(fields[9]);
             free(line); 
             fclose(file_players);
             return 1; 
@@ -214,44 +221,55 @@ int ft_player_menu_logic(PLAYER *player)
 {
     int option = ft_player_menu();
 
-    if(option == 1)
+    while(option != 4)
     {
-       
-        char user[100];
-        ft_clean_input();
-
-        printf("Insira o nickname do player que quer carregar\n");
-        printf("→ ");
-        fgets(user, sizeof(user), stdin);
-        user[strcspn(user, "\n")] = '\0'; // Remove newline character
-        
-        while(!ft_load_player(user, player))
+        if(option == 1)
         {
-            //system("clear");
-            printf("→ ");
-            scanf("%99s", user);
+            if(ft_ask_to_continue() == 2)
+                option = ft_player_menu();
+            char user[100];
             ft_clean_input();
-        }
-        ft_load_bar(10);
-        ft_wait_enter();
-    }
-    else if(option == 2)
-    {
-        ft_clean_input();
-        *player = ft_create_player(0);
 
-        ft_save_player(player);
+            printf("Insira o nickname do player que quer carregar\n");
+            printf("→ ");
+            fgets(user, sizeof(user), stdin);
+            user[strcspn(user, "\n")] = '\0'; 
+            
+            while(!ft_load_player(user, player))
+            {
+                //system("clear");
+                printf("→ ");
+                scanf("%99s", user);
+                ft_clean_input();
+            }
+            ft_load_bar(10);
+            ft_wait_enter();
+            break;
+        }
+        else if(option == 2)
+        {
+            if(ft_ask_to_continue() == 2)
+                option = ft_player_menu();
+            ft_clean_input();
+            *player = ft_create_player(0);
+
+            ft_save_player(player);
+            
+            ft_load_bar(10);
         
-        ft_load_bar(10);
-       
-        ft_wait_enter();
-    }
-    else if(option == 3)
-    {
-        *player = ft_create_player(1);
-        ft_load_bar(10);
-        ft_clean_input();
-        ft_wait_enter();
+            ft_wait_enter();
+            break;
+        }
+        else if(option == 3)
+        {
+            if(ft_ask_to_continue() == 2)
+                option = ft_player_menu();
+            *player = ft_create_player(1);
+            ft_load_bar(10);
+            ft_clean_input();
+            ft_wait_enter();
+            break;
+        }
     }
     
     return option;
@@ -269,12 +287,14 @@ void ft_update_stats(PLAYER *player, int result, double bet)
     else if(amount > 0)
     {
         player->total_wins++;
+        player->total_win += amount;
         if(amount > player->max_win)
             player->max_win = amount;
     }
     else
     {
         player->total_loses++;
+        player->total_lose += amount;
         if(amount < player->max_lose)
             player->max_lose = amount;
     }

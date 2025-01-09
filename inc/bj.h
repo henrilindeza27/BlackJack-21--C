@@ -24,6 +24,8 @@ typedef struct player
 
 	double max_win;
 	double max_lose;
+	double total_win;
+	double total_lose;
 
 }			PLAYER;
 
@@ -37,7 +39,7 @@ void		ft_initial_play(char ***deck, int *cards_played, int number_decks, char **
 const char	*ft_convert_to_emoji(const char *card);
 void		ft_save_card_played(char ***hand, size_t *hand_size, char *card);
 void		ft_print_played_cards(int player_play, char **p_hand, char **d_hand, size_t player_hand_size, size_t dealer_hand_size, char *nickname);
-int 		ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER player, double bet);
+int 		ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet);
 int			ft_calculate_hand_points(char **hand, size_t hand_size, int is_dealer, int is_firstplay);
 void		ft_player_single_play(char ***deck, char ***player_hand, size_t *player_hand_size, int *cards_played, int number_decks);
 void		ft_dealer_single_play(char ***deck, char ***dealer_hand, size_t *dealer_hand_size, int *cards_played, int number_decks);
@@ -62,5 +64,8 @@ void ft_update_stats(PLAYER *player, int result, double bet);
 int ft_double_length(double num);
 int ft_main_menu(PLAYER player, int is_guest);
 void ft_show_stats(PLAYER player);
+void ft_add_balance(PLAYER *player);
+void ft_spaces(int spaces);
+int ft_ask_to_continue(void);
 
 #endif

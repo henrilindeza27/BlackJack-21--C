@@ -111,6 +111,8 @@ double ft_check_bet(int result, double bet)
         return(bet * -2);
     else if(result == 3)
        return(bet * 1.5);
+    else if(result == -3)
+        return(bet * -1.5);
     return 0;
 }
 
@@ -197,7 +199,7 @@ int ft_main_menu(PLAYER player, int is_guest)
     printf("║ 👤 %s", player.nickname);
     ft_spaces(spaces);
     printf("║\n");
-    spaces = 42 - (6 + ft_double_length(player.balance));
+    spaces = 42 - (9 + ft_double_length(player.balance));
     printf("║ 💰 %.2f €", player.balance);
     ft_spaces(spaces);
     printf("║\n");
@@ -208,12 +210,20 @@ int ft_main_menu(PLAYER player, int is_guest)
         printf("║ [2] - Ver estatistica                    ║\n");
         flag = 3;
     }
+    if(player.balance == 0)
+    {
+        printf("║ [%d] - Adicionar 250 ao saldo             ║\n", flag);
+        if(!is_guest)
+            flag = 4;
+        else
+            flag = 3;
+        
+    }
     printf("║ [%d] - Sair                               ║\n", flag);
     printf("╚══════════════════════════════════════════╝\n");
     printf("-> ");
     while (scanf("%d", &option) <= 0 || (option < 1 || option > flag))
     {
-        system("clear");
         printf("[ Opção inválida inválida ]\n");
         printf("-> ");
         ft_clean_input();
@@ -257,11 +267,40 @@ void ft_show_stats(PLAYER player)
     spaces = 42 - (19 + ft_double_length(player.max_lose));
     ft_spaces(spaces);
     printf("║\n");
+    printf("║                                          ║\n");
+    printf("║ Total ganho: %.2f", player.total_win);
+    spaces = 42 - (17 + ft_double_length(player.total_win));
+    ft_spaces(spaces);
+    printf("║\n");
+    printf("║ Total perdido: %.2f", player.total_lose);
+    spaces = 42 - (19 + ft_double_length(player.total_lose));
+    ft_spaces(spaces);
+    printf("║\n");
+    printf("║ Profit: %.2f", player.total_win + player.total_lose); //alterar que não está 100% bem
+    spaces = 42 - (11 + ft_double_length(player.total_lose));
+    ft_spaces(spaces);
+    printf("║\n");
     printf("╚══════════════════════════════════════════╝\n");
 
+}
 
+void ft_add_balance(PLAYER *player)
+{
+    player->balance += 250;
+}
 
+int ft_ask_to_continue(void)
+{
+    int option;
 
-
-
+    printf("Quer continuar ?\n");
+    printf("[1]- Sim  [2]- Não\n");
+    printf("→ ");
+    while (scanf("%d", &option) <= 0 || (option < 1 || option > 2))
+    {
+        printf("[ Opção inválida inválida ]\n");
+        printf("-> ");
+        ft_clean_input();
+    }
+    return option;
 }
