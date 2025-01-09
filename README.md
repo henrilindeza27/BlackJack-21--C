@@ -1,9 +1,8 @@
 # BlackJack 21
 
-(Um erro de formatação no balance)
-O jogo está completamente funcional onde podem introduzir
-o seu nickname, o saldo começa em 1000, qualquer aposta é válida desde
-que não seja negativa ou ultrapasse o saldo
+(Alguns erros de formatação podem aparecer)
+O jogo está completamente funcional onde podem criar conta, carregar alguma que já esteja criada ou jogar como guest, o saldo começa em 1000 (guest ou conta nova), qualquer aposta é válida desde
+que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será disponibilizada uma opção para adiconar mais 250
 
 -**Lista de afazeres**
 - [ ] Funcionalidade do split 
