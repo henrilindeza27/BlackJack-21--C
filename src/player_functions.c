@@ -217,16 +217,21 @@ int ft_load_player(char *nickname, PLAYER *player)
     return 0;
 }
 
-int ft_player_menu_logic(PLAYER *player)
+int ft_player_menu_logic(PLAYER *player)//Corrigir a logica do ft_ask_to_continue() (continua dentro do if)
 {
     int option = ft_player_menu();
 
     while(option != 4)
     {
+        
         if(option == 1)
         {
-            if(ft_ask_to_continue() == 2)
-                option = ft_player_menu();
+            if(ft_ask_to_continue() == 2)   
+            {   
+                system("clear");
+                option = ft_player_menu(); 
+                continue;
+            }
             char user[100];
             ft_clean_input();
 
@@ -237,7 +242,6 @@ int ft_player_menu_logic(PLAYER *player)
             
             while(!ft_load_player(user, player))
             {
-                //system("clear");
                 printf("→ ");
                 scanf("%99s", user);
                 ft_clean_input();
@@ -249,7 +253,11 @@ int ft_player_menu_logic(PLAYER *player)
         else if(option == 2)
         {
             if(ft_ask_to_continue() == 2)
-                option = ft_player_menu();
+            {   
+                system("clear");
+                option = ft_player_menu(); 
+                continue;
+            }
             ft_clean_input();
             *player = ft_create_player(0);
 
@@ -263,7 +271,11 @@ int ft_player_menu_logic(PLAYER *player)
         else if(option == 3)
         {
             if(ft_ask_to_continue() == 2)
-                option = ft_player_menu();
+            {   
+                system("clear");
+                option = ft_player_menu(); 
+                continue;
+            }
             *player = ft_create_player(1);
             ft_load_bar(10);
             ft_clean_input();

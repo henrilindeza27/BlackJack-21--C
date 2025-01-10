@@ -304,3 +304,12 @@ int ft_ask_to_continue(void)
     }
     return option;
 }
+
+int ft_check_bj_player(HandNode *player_hand, HandNode *dealer_hand)
+{
+    if(ft_calculate_hand_points(player_hand, 0 , 0) == 21 && ft_calculate_hand_points(dealer_hand, 0 , 0) != 21)
+        return 1;
+    else if(ft_calculate_hand_points(player_hand, 0 , 0) == 21 && ft_calculate_hand_points(dealer_hand, 0 , 0) == 21 && dealer_hand->hand[0][0] == '1')
+        return 1;
+    return 0;
+}
