@@ -6,7 +6,6 @@ que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será dis
 
 -**Lista de afazeres**
 - [ ] Funcionalidade do split 
-- [ ] Multi Hands
 - [x] Interface melhor
 - [x] Carregar user através de um ficheiro
 - [x] Guardar status do user no ficheiro
