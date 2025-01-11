@@ -204,6 +204,7 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
     int option;
     int flag_hand = 1;
     int bust = 0;
+    int total_bust = 0;
     while (flag_hand < 3)
     {
         do
@@ -219,11 +220,13 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
                 if(ft_calculate_hand_points(new_hand1, 0, 0) > 21)
                 {
                     bust++;  
+                    total_bust++;
                     break;   
                 }
             }
             else if(option == 1 && flag_hand == 2)
             {
+                bust = 0;
                 system("clear");
                 ft_player_single_play(deck, new_hand2, cards_played, number_decks);
                 ft_print_played_cards(1, *player_hand, dealer_hand, nickname);
@@ -232,6 +235,7 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
                 if(ft_calculate_hand_points(new_hand2, 0, 0) > 21)
                 {
                     bust++;  
+                    total_bust++;
                     break;   
                 }
             }
@@ -243,5 +247,5 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
         ft_print_played_cards(1, *player_hand, dealer_hand, nickname);
     }
     
-    return bust;
+    return total_bust;
 }

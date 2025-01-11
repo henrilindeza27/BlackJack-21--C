@@ -45,7 +45,7 @@ void		ft_shuffle_deck(char ***full_deck, int number_decks);
 void		ft_play_card(char ***full_deck, int number_decks, int *cards_played);
 const char	*ft_convert_to_emoji(const char *card);
 
-int 		ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet);
+int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet, int *split_flag, int *double_flag);
 
 PLAYER ft_create_player(int is_guest);
 int ft_save_player(PLAYER *player);
@@ -61,8 +61,8 @@ void ft_load_bar(size_t size);
 int ft_player_menu_logic(PLAYER *player);
 int ft_check_nickname(char *nickname);
 int ft_load_player(char *nickname, PLAYER *player);
-double ft_check_bet(int result, double bet);
-void ft_update_stats(PLAYER *player, int result, double bet);
+double ft_check_bet(int result, double bet, int split_flag, int double_flag);
+void ft_update_stats(PLAYER *player, int result, double bet, int split_flag, int double_flag);
 int ft_double_length(double num);
 int ft_main_menu(PLAYER player, int is_guest);
 void ft_show_stats(PLAYER player);

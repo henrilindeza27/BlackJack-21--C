@@ -61,7 +61,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
     int flag_show = 0;
     int first_play = 1;
     int can_split = ft_check_split(*player_hand);
-
+    *flag = 1;
     if(dhand[0] == 'A')
     {
         flag_show = 1;
@@ -143,6 +143,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             if(player->balance >= bet * 2)
             {
                 *flag = 2;
+                player->balance -= bet;
                 ft_player_single_play(deck, *player_hand, cards_played, number_decks);
                 ft_print_played_cards(1, *player_hand, dealer_hand,player->nickname);
                 if(ft_calculate_hand_points(*player_hand, 0 , 0) > 21)
@@ -151,7 +152,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             }
             ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
         }
-        else if(option == 3 && can_split)
+        else if(option == 3 && can_split && player->balance >= bet * 2)
         {
             first_play = 0;
             can_split = 0;
@@ -186,13 +187,12 @@ int ft_dealer_play(char ***deck, HandNode *dealer_hand, HandNode *player_hand, i
 
 
 
-int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet)
+int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet, int *split_flag, int *double_flag)
 {
     HandNode *player_hand = ft_create_hand_node(NULL, 0);
     HandNode *dealer_hand = ft_create_hand_node(NULL, 0);
 
     int option;
-    int flag = 1;
     int dealer_bj = 0;
 
     ft_shuffle_deck(deck, number_decks);
@@ -207,30 +207,44 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
         printf("\n[ BLACKJACK ]");
         ft_clean_input();
         ft_wait_enter(); 
+        ft_free_hand(player_hand);
+        ft_free_hand(dealer_hand);
         return 1 * 3;
     }
 
-    if(ft_player_play(deck, &player_hand, dealer_hand, cards_played, number_decks, player, bet, &flag))
+    if(ft_player_play(deck, &player_hand, dealer_hand, cards_played, number_decks, player, bet, double_flag))
     {    
         printf("\n[ PERDEU ]");
         ft_clean_input();
         ft_wait_enter();
-        return -1 * flag;
+        ft_free_hand(player_hand);
+        ft_free_hand(dealer_hand);
+        return -1 * *double_flag;
     }
     else
     {        
+        if(ft_total_hands(player_hand) == 2)
+            *split_flag = 2;
         if(ft_dealer_play(deck, dealer_hand, player_hand, cards_played, number_decks, player->nickname))
         {   
             printf("\n[ GANHOU ]");
             ft_clean_input();
             ft_wait_enter(); 
-            return 1 * flag;
+            ft_free_hand(player_hand);
+            ft_free_hand(dealer_hand);
+            return 1 * *double_flag;
         }
         else
-            return(ft_check_result(player_hand,dealer_hand,flag));
-        
+        {    
+            int res = ft_check_result(player_hand,dealer_hand, *double_flag);
+            ft_free_hand(player_hand);
+            ft_free_hand(dealer_hand);
+            return(res);
+        }
     }
+    ft_free_hand(player_hand);
     ft_free_hand(dealer_hand);
+    return 0;
 }
 
 
@@ -255,9 +269,9 @@ double ft_make_bet(PLAYER player)
     return tmp;
 }
 
-void ft_update_balance(int result, PLAYER *player, double bet)
+void ft_update_balance(PLAYER *player, int result, double bet, int split_flag, int double_flag)
 {
-    double amount_to_change = ft_check_bet(result, bet);
+    double amount_to_change = ft_check_bet(result, bet, split_flag, double_flag);
     player->balance += amount_to_change;
 }
 
@@ -278,6 +292,9 @@ void ft_play(char ***deck, int number_decks)
     int cards_played = 0;
     int exit_flag = 3;
     int option = ft_main_menu(jogador, is_guest);
+    int double_flag = 1;
+    
+
     if(jogador.balance == 0)
             exit_flag = 4;
         else
@@ -285,7 +302,7 @@ void ft_play(char ***deck, int number_decks)
     while ((option != exit_flag && !is_guest) || (option != exit_flag - 1 && is_guest))
     {
         system("clear");
-        
+        int split_flag = 1;
         if (option == 1)
         {
             aposta = ft_make_bet(jogador);
@@ -294,10 +311,10 @@ void ft_play(char ***deck, int number_decks)
             else
             {
                 jogador.balance -= aposta;
-                int result = ft_main_play(deck, &cards_played, number_decks, &jogador, aposta);
+                int result = ft_main_play(deck, &cards_played, number_decks, &jogador, aposta, &split_flag, &double_flag);
 
-                ft_update_balance(result, &jogador, aposta);
-                ft_update_stats(&jogador, result, aposta);
+                ft_update_balance(&jogador,result, aposta, split_flag, double_flag);
+                ft_update_stats(&jogador, result, aposta, split_flag, double_flag);
                 if(!is_guest)
                     ft_save_player(&jogador);
                     

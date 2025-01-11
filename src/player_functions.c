@@ -289,9 +289,13 @@ int ft_player_menu_logic(PLAYER *player)//Corrigir a logica do ft_ask_to_continu
 }
 
 
-void ft_update_stats(PLAYER *player, int result, double bet)
+void ft_update_stats(PLAYER *player, int result, double bet, int split_flag, int double_flag)
 {
-    double amount = ft_check_bet(result, bet);
+    double amount = 0;
+    if(result >= 0)
+        amount = ft_check_bet(result, bet, split_flag, double_flag);
+    else
+        amount += (result * bet);
 
     player->total_games++;
     if(!amount)
@@ -299,7 +303,7 @@ void ft_update_stats(PLAYER *player, int result, double bet)
     else if(amount > 0)
     {
         player->total_wins++;
-        player->total_win += amount;
+        player->total_win += amount - bet;
         if(amount > player->max_win)
             player->max_win = amount;
     }

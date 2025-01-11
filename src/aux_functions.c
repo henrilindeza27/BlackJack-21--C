@@ -99,24 +99,27 @@ int ft_is_empty_nickname(char *nickname)
     return 1;
 }
 
-double ft_check_bet(int result, double bet)
+double ft_check_bet(int result, double bet, int split_flag, int double_flag)
 {
-    if(result == 1)
+    if(result == 0)
+        return(bet * split_flag * double_flag);
+    else if(result == 1)
+    {    
+        if(split_flag == 2)
+            return((bet * 2) + bet);
         return (bet * 2);
+    }
     else if(result == 2)
         return((bet * 2) * 2);
     else if(result == -1)
         return (0);
     else if(result == -2)
-        return(bet * -1);
+        return(0);
     else if(result == 3)
-       return(bet * 1.5);
+       return((bet * 1.5) + bet);
     else if(result == -3)
         return(bet * -0.5);
-    else if(result == 5)
-        return(bet);
-    else if(result == 10)
-        return(bet * 2);
+    
     return 0;
 }
 
@@ -342,7 +345,7 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
                 ft_clean_input();
                 ft_wait_enter();
             }
-            retrn += -1 * flag;
+            retrn -= 1 * flag;
         }
         else if(player_points > dealer_points)
         {   
@@ -363,7 +366,7 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
                 ft_clean_input();
                 ft_wait_enter();
             }
-            retrn += 5;
+            retrn += 0;
         }
         player_hand = player_hand->next;
     }
