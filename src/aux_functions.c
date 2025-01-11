@@ -102,17 +102,21 @@ int ft_is_empty_nickname(char *nickname)
 double ft_check_bet(int result, double bet)
 {
     if(result == 1)
-        return (bet);
+        return (bet * 2);
     else if(result == 2)
-        return(bet * 2);
+        return((bet * 2) * 2);
     else if(result == -1)
-        return (bet * -1);
+        return (0);
     else if(result == -2)
-        return(bet * -2);
+        return(bet * -1);
     else if(result == 3)
        return(bet * 1.5);
     else if(result == -3)
-        return(bet * -1.5);
+        return(bet * -0.5);
+    else if(result == 5)
+        return(bet);
+    else if(result == 10)
+        return(bet * 2);
     return 0;
 }
 
@@ -312,4 +316,56 @@ int ft_check_bj_player(HandNode *player_hand, HandNode *dealer_hand)
     else if(ft_calculate_hand_points(player_hand, 0 , 0) == 21 && ft_calculate_hand_points(dealer_hand, 0 , 0) == 21 && dealer_hand->hand[0][0] == '1')
         return 1;
     return 0;
+}
+
+int ft_check_split(HandNode *player_hand)
+{
+    if(ft_card_value(player_hand->hand[0]) == ft_card_value(player_hand->hand[1]))
+        return 1;
+    return 0;
+}
+
+int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
+{
+    int total_hand = ft_total_hands(player_hand);
+    int retrn = 0;
+    while (total_hand-- && player_hand != NULL)
+    {
+        int player_points = ft_calculate_hand_points(player_hand, 0 , 0);
+        int dealer_points = ft_calculate_hand_points(dealer_hand, 1, 0);
+       
+        if(player_points > 21 || player_points < dealer_points)
+        {
+            printf("\n[ PERDEU ]");
+            if(!total_hand)
+            {
+                ft_clean_input();
+                ft_wait_enter();
+            }
+            retrn += -1 * flag;
+        }
+        else if(player_points > dealer_points)
+        {   
+            printf("\n[ GANHOU ]");
+            if(!total_hand)
+            {
+                ft_clean_input();
+                ft_wait_enter();
+            }
+            
+            retrn += 1 * flag;
+        }
+        else
+        {   
+            printf("\n[ EMPATE ]");
+            if(!total_hand)
+            {
+                ft_clean_input();
+                ft_wait_enter();
+            }
+            retrn += 5;
+        }
+        player_hand = player_hand->next;
+    }
+    return retrn;
 }

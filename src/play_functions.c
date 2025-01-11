@@ -22,12 +22,21 @@ void ft_initial_play(char ***deck, int *cards_played, int number_decks, HandNode
     ft_dealer_single_play(deck, dealer_hand, cards_played, number_decks);
 }
 
-int ft_ask_play()
+int ft_ask_play(int flag, int can_split, int hand)
 {
     int option;
 
-    printf("1- Hit | 2- Double | 3 - Stop \n");
-    while(scanf("%d", &option) <= 0 || (option < 1 || option > 3))
+    if(hand == 1)
+        puts("[Hand 1]");
+    else if(hand == 2)
+        puts("[Hand 2]");
+    if(flag && can_split)
+        printf("1- Hit | 2- Double | 3- Split | 4- Stop \n");
+    else if(flag && !can_split)
+        printf("1- Hit | 2- Double | 3- Stop \n");
+    else
+        printf("1- Hit | 2- Stop \n");
+    while(scanf("%d", &option) <= 0 || (option < 1 || option > 2 + (can_split + flag)))
         ft_clean_input();
 
     return option;
@@ -45,12 +54,13 @@ int ft_ask_insurance()
     return option;
 }
 
-int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,int *cards_played, int number_decks, PLAYER *player, double bet, int *flag)
+int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,int *cards_played, int number_decks, PLAYER *player, double bet, int *flag)
 {
     int option;
     char *dhand = dealer_hand->hand[1];
     int flag_show = 0;
     int first_play = 1;
+    int can_split = ft_check_split(*player_hand);
 
     if(dhand[0] == 'A')
     {
@@ -67,12 +77,12 @@ int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,i
             if(ft_calculate_hand_points(dealer_hand, 0 , 0) == 21)
             {  
                 
-                ft_print_played_cards(0, player_hand, dealer_hand, player->nickname);
+                ft_print_played_cards(0, *player_hand,  dealer_hand, player->nickname);
                 return 0;
             }
             else
             {
-                ft_print_played_cards(1, player_hand, dealer_hand, player->nickname);
+                ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
                 printf("[ O dealer não tem blackjack ]\n");
             }
             
@@ -83,12 +93,12 @@ int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,i
             if(ft_calculate_hand_points(dealer_hand, 0 , 0) == 21)
             {  
                 
-                ft_print_played_cards(0, player_hand, dealer_hand, player->nickname);
+                ft_print_played_cards(0, *player_hand,  dealer_hand, player->nickname);
                 return 0;
             }
             else
             {
-                ft_print_played_cards(1, player_hand, dealer_hand, player->nickname);
+                ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
                 printf("[ O dealer não tem blackjack ]\n");
             }
         }
@@ -97,10 +107,10 @@ int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,i
     {
         if(ft_calculate_hand_points(dealer_hand, 0 , 0) == 21)
         {
-            if(ft_calculate_hand_points(player_hand, 0 , 0) != 21)
+            if(ft_calculate_hand_points(*player_hand, 0 , 0) != 21)
             {
                 system("clear");
-                ft_print_played_cards(0, player_hand, dealer_hand, player->nickname);
+                ft_print_played_cards(0, *player_hand,  dealer_hand, player->nickname);
                 return 1;
             }
             return 0;
@@ -108,7 +118,7 @@ int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,i
         else
         {
             system("clear");
-            ft_print_played_cards(1, player_hand, dealer_hand, player->nickname);
+            ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
             printf("[ O dealer não tem blackjack ]\n");
         }
         
@@ -116,14 +126,14 @@ int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,i
     
     do
     {
-        option = ft_ask_play();
+        option = ft_ask_play(first_play, can_split, 0);
         if(option == 1)
         {    
             first_play = 0;
             system("clear");
-            ft_player_single_play(deck, player_hand, cards_played, number_decks);
-            ft_print_played_cards(1, player_hand, dealer_hand, player->nickname);
-            if(ft_calculate_hand_points(player_hand, 0 , 0) > 21)
+            ft_player_single_play(deck, *player_hand, cards_played, number_decks);
+            ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
+            if(ft_calculate_hand_points(*player_hand, 0 , 0) > 21)
                 return 1;
                 
         }
@@ -133,15 +143,24 @@ int ft_player_play(char ***deck, HandNode *player_hand, HandNode *dealer_hand ,i
             if(player->balance >= bet * 2)
             {
                 *flag = 2;
-                ft_player_single_play(deck, player_hand, cards_played, number_decks);
-                ft_print_played_cards(1, player_hand, dealer_hand,player->nickname);
-                if(ft_calculate_hand_points(player_hand, 0 , 0) > 21)
+                ft_player_single_play(deck, *player_hand, cards_played, number_decks);
+                ft_print_played_cards(1, *player_hand, dealer_hand,player->nickname);
+                if(ft_calculate_hand_points(*player_hand, 0 , 0) > 21)
                     return 1;
                 break;
             }
-            ft_print_played_cards(1, player_hand, dealer_hand, player->nickname);
+            ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
         }
-    } while(option != 3);
+        else if(option == 3 && can_split)
+        {
+            first_play = 0;
+            can_split = 0;
+            player->balance -= bet;
+            if(ft_split(deck, player_hand, dealer_hand, cards_played, number_decks, player->nickname) == 2)
+                return 1;
+            break;
+        }
+    } while(option != 2 + (first_play + can_split));
     return 0;
 }
 
@@ -149,6 +168,7 @@ int ft_dealer_play(char ***deck, HandNode *dealer_hand, HandNode *player_hand, i
 {
     usleep(50000);
     system("clear"); 
+    
     ft_print_played_cards(0, player_hand, dealer_hand, nickname);
 
     while (ft_calculate_hand_points(dealer_hand, 1, 0) < 17)
@@ -178,19 +198,19 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
     ft_shuffle_deck(deck, number_decks);
 
     ft_initial_play(deck, cards_played, number_decks, player_hand, dealer_hand);
-    ft_print_played_cards(1, player_hand, dealer_hand, player->nickname);
+    ft_print_played_cards(1, player_hand,  dealer_hand, player->nickname);
 
     if(ft_check_bj_player(player_hand, dealer_hand))
     {
         system("clear");
-        ft_print_played_cards(0, player_hand, dealer_hand, player->nickname);
+        ft_print_played_cards(0, player_hand,  dealer_hand, player->nickname);
         printf("\n[ BLACKJACK ]");
         ft_clean_input();
         ft_wait_enter(); 
         return 1 * 3;
     }
 
-    if(ft_player_play(deck, player_hand, dealer_hand, cards_played, number_decks, player, bet, &flag))
+    if(ft_player_play(deck, &player_hand, dealer_hand, cards_played, number_decks, player, bet, &flag))
     {    
         printf("\n[ PERDEU ]");
         ft_clean_input();
@@ -207,33 +227,9 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
             return 1 * flag;
         }
         else
-        {
-            int player_points = ft_calculate_hand_points(player_hand, 0 , 0);
-            int dealer_points = ft_calculate_hand_points(dealer_hand, 1, 0);
-            if(player_points > dealer_points)
-            {   
-                printf("\n[ GANHOU ]");
-                ft_clean_input();
-                ft_wait_enter();
-                return 1 * flag;
-            }
-            else if(player_points < dealer_points)
-            {
-                printf("\n[ PERDEU ]");
-                ft_clean_input();
-                ft_wait_enter();
-                return -1 * flag;
-            }
-            else
-            {   
-                printf("\n[ EMPATE ]");
-                ft_clean_input();
-                ft_wait_enter();
-                return 0;
-            }
-        }
+            return(ft_check_result(player_hand,dealer_hand,flag));
+        
     }
-    ft_free_hand(player_hand);
     ft_free_hand(dealer_hand);
 }
 
@@ -297,6 +293,7 @@ void ft_play(char ***deck, int number_decks)
                 option = ft_main_menu(jogador, is_guest);
             else
             {
+                jogador.balance -= aposta;
                 int result = ft_main_play(deck, &cards_played, number_decks, &jogador, aposta);
 
                 ft_update_balance(result, &jogador, aposta);

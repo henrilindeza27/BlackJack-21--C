@@ -78,6 +78,12 @@ int			ft_calculate_hand_points(HandNode *hand_node, int is_dealer, int is_firstp
 void 		ft_player_single_play(char ***deck, HandNode *player_hand, int *cards_played, int number_decks);
 void 		ft_dealer_single_play(char ***deck, HandNode *dealer_hand, int *cards_played, int number_decks);
 void 		ft_initial_play(char ***deck, int *cards_played, int number_decks, HandNode *player_hand, HandNode *dealer_hand);
-void 		ft_print_played_cards(int player_play, HandNode *player_hand, HandNode *dealer_hand, char *nickname);
+void 		ft_print_played_cards(int first_play, HandNode *player_hand, HandNode *dealer_hand, char *nickname);
 void 		ft_free_hand(HandNode *hand_list);
+int 		ft_card_value(char *card);
+int ft_total_hands(HandNode *hand_list);
+int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag);
+int ft_check_split(HandNode *player_hand);
+int ft_ask_play(int flag, int can_split, int hand);
+int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *cards_played, int number_decks, char *nickname);
 #endif
