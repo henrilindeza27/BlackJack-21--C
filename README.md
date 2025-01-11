@@ -15,7 +15,7 @@ que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será dis
 - [x] Fazer seguro se o dealer tiver um Às e verificar bj
 - [x] Se o dealer tiver um 10 verificar se tem bj
 - [ ] Side bets
-- [ ] Resolver o erro de atualizar o saldo no split
+- [x] Resolver o erro de atualizar o saldo no split
 
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
