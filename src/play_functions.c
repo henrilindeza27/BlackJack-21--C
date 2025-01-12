@@ -140,7 +140,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
         else if(option == 2 && first_play)
         {
             system("clear");
-            if(player->balance >= bet * 2)
+            if(player->balance >= bet)
             {
                 *flag = 2;
                 player->balance -= bet;
@@ -152,7 +152,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             }
             ft_print_played_cards(1, *player_hand,  dealer_hand, player->nickname);
         }
-        else if(option == 3 && can_split && player->balance >= bet * 2)
+        else if(option == 3 && player->balance >= bet  && can_split)
         {
             first_play = 0;
             can_split = 0;
@@ -219,7 +219,7 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
         ft_wait_enter();
         ft_free_hand(player_hand);
         ft_free_hand(dealer_hand);
-        return -1 * *double_flag;
+        return -1 * (*double_flag);
     }
     else
     {        
@@ -232,7 +232,7 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
             ft_wait_enter(); 
             ft_free_hand(player_hand);
             ft_free_hand(dealer_hand);
-            return 1 * *double_flag;
+            return 1 * (*double_flag) * (*split_flag);
         }
         else
         {    
