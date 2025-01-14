@@ -12,7 +12,7 @@ char	***ft_creat_single_deck(void)
 {
 	char	***deck;
 	char	*values[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J","Q", "K"};
-	char	*naipes[] = {"♥", "♠", "♦", "♣"};
+	char	*naipes[] = {"c", "e", "o", "p"};
 	char card[10];
 
 	deck = (char ***)malloc(sizeof(char **) * 4);
@@ -156,109 +156,109 @@ void	ft_play_card(char ***full_deck, int number_decks, int *cards_played)
 
 const char	*ft_convert_to_emoji(const char *card)
 {
-	if (strcmp(card, "A♠") == 0)
+	if (strcmp(card, "Ae") == 0)
 		return ("🂡");
-	if (strcmp(card, "2♠") == 0)
+	if (strcmp(card, "2e") == 0)
 		return ("🂢");
-	if (strcmp(card, "3♠") == 0)
+	if (strcmp(card, "3e") == 0)
 		return ("🂣");
-	if (strcmp(card, "4♠") == 0)
+	if (strcmp(card, "4e") == 0)
 		return ("🂤");
-	if (strcmp(card, "5♠") == 0)
+	if (strcmp(card, "5e") == 0)
 		return ("🂥");
-	if (strcmp(card, "6♠") == 0)
+	if (strcmp(card, "6e") == 0)
 		return ("🂦");
-	if (strcmp(card, "7♠") == 0)
+	if (strcmp(card, "7e") == 0)
 		return ("🂧");
-	if (strcmp(card, "8♠") == 0)
+	if (strcmp(card, "8e") == 0)
 		return ("🂨");
-	if (strcmp(card, "9♠") == 0)
+	if (strcmp(card, "9e") == 0)
 		return ("🂩");
-	if (strcmp(card, "10♠") == 0)
+	if (strcmp(card, "10e") == 0)
 		return ("🂪");
-	if (strcmp(card, "J♠") == 0)
+	if (strcmp(card, "Je") == 0)
 		return ("🂫");
-	if (strcmp(card, "Q♠") == 0)
+	if (strcmp(card, "Qe") == 0)
 		return ("🂭");
-	if (strcmp(card, "K♠") == 0)
+	if (strcmp(card, "Ke") == 0)
 		return ("🂮");
-	if (strcmp(card, "A♥") == 0)
+	if (strcmp(card, "Ac") == 0)
 		return "🂱";
-	if (strcmp(card, "2♥") == 0)
+	if (strcmp(card, "2c") == 0)
 		return "🂲";
-	if (strcmp(card, "3♥") == 0)
+	if (strcmp(card, "3c") == 0)
 		return "🂳";
-	if (strcmp(card, "4♥") == 0)
+	if (strcmp(card, "4c") == 0)
 		return "🂴";
-	if (strcmp(card, "5♥") == 0)
+	if (strcmp(card, "5c") == 0)
 		return "🂵";
-	if (strcmp(card, "6♥") == 0)
+	if (strcmp(card, "6c") == 0)
 		return "🂶";
-	if (strcmp(card, "7♥") == 0)
+	if (strcmp(card, "7c") == 0)
 		return "🂷";
-	if (strcmp(card, "8♥") == 0)
+	if (strcmp(card, "8c") == 0)
 		return "🂸";
-	if (strcmp(card, "9♥") == 0)
+	if (strcmp(card, "9c") == 0)
 		return "🂹";
-	if (strcmp(card, "10♥") == 0)
+	if (strcmp(card, "10c") == 0)
 		return "🂺";
-	if (strcmp(card, "J♥") == 0)
+	if (strcmp(card, "Jc") == 0)
 		return "🂻";
-	if (strcmp(card, "Q♥") == 0)
+	if (strcmp(card, "Qc") == 0)
 		return "🂽";
-	if (strcmp(card, "K♥") == 0)
+	if (strcmp(card, "Kc") == 0)
 		return "🂾";
-	if (strcmp(card, "A♦") == 0)
+	if (strcmp(card, "Ao") == 0)
 		return "🃁";
-	if (strcmp(card, "2♦") == 0)
+	if (strcmp(card, "2o") == 0)
 		return "🃂";
-	if (strcmp(card, "3♦") == 0)
+	if (strcmp(card, "3o") == 0)
 		return "🃃";
-	if (strcmp(card, "4♦") == 0)
+	if (strcmp(card, "4o") == 0)
 		return "🃄";
-	if (strcmp(card, "5♦") == 0)
+	if (strcmp(card, "5o") == 0)
 		return "🃅";
-	if (strcmp(card, "6♦") == 0)
+	if (strcmp(card, "6o") == 0)
 		return "🃆";
-	if (strcmp(card, "7♦") == 0)
+	if (strcmp(card, "7o") == 0)
 		return "🃇";
-	if (strcmp(card, "8♦") == 0)
+	if (strcmp(card, "8o") == 0)
 		return "🃈";
-	if (strcmp(card, "9♦") == 0)
+	if (strcmp(card, "9o") == 0)
 		return "🃉";
-	if (strcmp(card, "10♦") == 0)
+	if (strcmp(card, "10o") == 0)
 		return "🃊";
-	if (strcmp(card, "J♦") == 0)
+	if (strcmp(card, "Jo") == 0)
 		return "🃋";
-	if (strcmp(card, "Q♦") == 0)
+	if (strcmp(card, "Qo") == 0)
 		return "🃍";
-	if (strcmp(card, "K♦") == 0)
+	if (strcmp(card, "Ko") == 0)
 		return "🃎";
-	if (strcmp(card, "A♣") == 0)
+	if (strcmp(card, "Ap") == 0)
 		return "🃑";
-	if (strcmp(card, "2♣") == 0)
+	if (strcmp(card, "2p") == 0)
 		return "🃒";
-	if (strcmp(card, "3♣") == 0)
+	if (strcmp(card, "3p") == 0)
 		return "🃓";
-	if (strcmp(card, "4♣") == 0)
+	if (strcmp(card, "4p") == 0)
 		return "🃔";
-	if (strcmp(card, "5♣") == 0)
+	if (strcmp(card, "5p") == 0)
 		return "🃕";
-	if (strcmp(card, "6♣") == 0)
+	if (strcmp(card, "6p") == 0)
 		return "🃖";
-	if (strcmp(card, "7♣") == 0)
+	if (strcmp(card, "7p") == 0)
 		return "🃗";
-	if (strcmp(card, "8♣") == 0)
+	if (strcmp(card, "8p") == 0)
 		return "🃘";
-	if (strcmp(card, "9♣") == 0)
+	if (strcmp(card, "9p") == 0)
 		return "🃙";
-	if (strcmp(card, "10♣") == 0)
+	if (strcmp(card, "10p") == 0)
 		return "🃚";
-	if (strcmp(card, "J♣") == 0)
+	if (strcmp(card, "Jp") == 0)
 		return "🃛";
-	if (strcmp(card, "Q♣") == 0)
+	if (strcmp(card, "Qp") == 0)
 		return "🃝";
-	if (strcmp(card, "K♣") == 0)
+	if (strcmp(card, "Kp") == 0)
 		return "🃞";
 	return "??"; 
 }

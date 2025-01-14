@@ -121,8 +121,9 @@ int	ft_calculate_hand_points(HandNode *hand_node, int is_dealer, int is_firstpla
 	return points;
 }
 
-void ft_print_played_cards(int first_play, HandNode *player_hand, HandNode *dealer_hand, char *nickname)
+void ft_print_played_cards(int first_play, HandNode *player_hand, HandNode *dealer_hand, PLAYER player, double *side_bets, double *side_wins, double bet)
 {
+    system("clear");
     printf("Dealer (%d)\n", ft_calculate_hand_points(dealer_hand, 1, first_play));
     
     for (size_t i = 0; i < dealer_hand->size_hand; i++) 
@@ -139,29 +140,30 @@ void ft_print_played_cards(int first_play, HandNode *player_hand, HandNode *deal
 
     if(ft_total_hands(player_hand) != 2)
     {
-        printf("%s (%d)\n", nickname, ft_calculate_hand_points(player_hand, 0, 0));
+        printf("%s (%d)\n", player.nickname, ft_calculate_hand_points(player_hand, 0, 0));
 
         for (size_t i = 0; i < player_hand->size_hand; i++) 
             printf("%s ", ft_convert_to_emoji(player_hand->hand[i]));
     }
     else
     {
-        printf("%s \n", nickname);
+        printf("%s \n", player.nickname);
 
-        for (size_t i = 0; i < player_hand->size_hand; i++) 
-            printf("%s ", ft_convert_to_emoji(player_hand->hand[i]));
-        printf(" (%d)     ", ft_calculate_hand_points(player_hand, 0, 0));
-
-        player_hand = player_hand->next;
-        for (size_t i = 0; i < player_hand->size_hand; i++) 
-            printf("%s ", ft_convert_to_emoji(player_hand->hand[i]));
-        printf(" (%d)\n", ft_calculate_hand_points(player_hand, 0, 0));
+        while (player_hand)
+        {
+            for (size_t i = 0; i < player_hand->size_hand; i++) 
+                printf("%s ", ft_convert_to_emoji(player_hand->hand[i]));
+            printf(" (%d)     ", ft_calculate_hand_points(player_hand, 0, 0));
+            player_hand = player_hand->next;
+        }
+        printf("\n");
     }
-
     printf("\n");   
+    ft_in_game_hud(player, side_bets, side_wins, bet);
+
 }
 
-int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *cards_played, int number_decks, char *nickname)
+int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *cards_played, int number_decks, PLAYER player, double *side_bets, double *side_wins, double bet)
 {
 
     char **temp = (*player_hand)->hand; 
@@ -199,7 +201,7 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
     ft_player_single_play(deck, new_hand2, cards_played, number_decks);
 
     system("clear");
-    ft_print_played_cards(1, *player_hand, dealer_hand, nickname);
+    ft_print_played_cards(1, *player_hand, dealer_hand, player, side_bets, side_wins, bet);
 
     int option;
     int flag_hand = 1;
@@ -215,7 +217,7 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
             {
                 system("clear");
                 ft_player_single_play(deck, new_hand1, cards_played, number_decks);
-                ft_print_played_cards(1, *player_hand, dealer_hand, nickname);
+                ft_print_played_cards(1, *player_hand, dealer_hand, player, side_bets, side_wins, bet);
                 
                 if(ft_calculate_hand_points(new_hand1, 0, 0) > 21)
                 {
@@ -229,7 +231,7 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
                 bust = 0;
                 system("clear");
                 ft_player_single_play(deck, new_hand2, cards_played, number_decks);
-                ft_print_played_cards(1, *player_hand, dealer_hand, nickname);
+                ft_print_played_cards(1, *player_hand, dealer_hand, player, side_bets, side_wins, bet);
                 
                
                 if(ft_calculate_hand_points(new_hand2, 0, 0) > 21)
@@ -244,7 +246,7 @@ int ft_split(char ***deck, HandNode **player_hand, HandNode *dealer_hand, int *c
 
         flag_hand++; 
         system("clear");
-        ft_print_played_cards(1, *player_hand, dealer_hand, nickname);
+        ft_print_played_cards(1, *player_hand, dealer_hand, player, side_bets, side_wins, bet);
     }
     
     return total_bust;

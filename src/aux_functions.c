@@ -71,12 +71,12 @@ int ft_player_menu(void)
 {
     int option;
 
-    printf("╔════════════════════════════╗\n");
-    printf("║   [1] Carregar player      ║\n");
-    printf("║   [2] Criar player         ║\n");
-    printf("║   [3] Iniciar como guest   ║\n");
-    printf("║   [4] Sair                 ║\n");
-    printf("╚════════════════════════════╝\n");
+    printf("+----------------------------+\n");
+    printf("|   [1] Carregar player      |\n");
+    printf("|   [2] Criar player         |\n");
+    printf("|   [3] Iniciar como guest   |\n");
+    printf("|   [4] Sair                 |\n");
+    printf("+----------------------------+\n");
     printf("→ ");
     while (scanf("%d", &option) <= 0 || (option < 1 || option > 4))
     {
@@ -145,39 +145,18 @@ int ft_double_length(double num)
         }
     }
 
-    // Contar o ponto decimal e os dígitos da parte fracionária
-    double fractional_part = num - (int)num;
-    if (fractional_part > 0) 
-    {
-        length++; // Contar o ponto decimal
-
-        int fractional_digits = 0;
-
-        while (fractional_part > 0 && fractional_digits < 16) 
-        {
-            fractional_part *= 10;
-            int digit = (int)fractional_part;
-            fractional_part -= digit;
-
-            fractional_digits++;
-
-            // Se a parte fracionária for suficientemente pequena, termine
-            if (fabs(fractional_part) < 1e-10) 
-                break;
-        }
-
-        length += fractional_digits;
-    }
+    length += 3;
+    
 
     return length;
 }
 
-void ft_spaces(int spaces)
+void ft_print_char(int size, char ch)
 {
-	while (spaces)
+	while (size)
 	{
-		printf(" ");
-		spaces--;
+		printf("%c", ch);
+		size--;
 	}
 }
 int ft_size_t_length(size_t num) 
@@ -202,32 +181,32 @@ int ft_main_menu(PLAYER player, int is_guest)
     int option;
     int flag = 2;
 
-    printf("╔══════════════════════════════════════════╗\n");
-    printf("║ 👤 %s", player.nickname);
-    ft_spaces(spaces);
-    printf("║\n");
-    spaces = 42 - (9 + ft_double_length(player.balance));
-    printf("║ 💰 %.2f €", player.balance);
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("╠══════════════════════════════════════════╣\n");
-    printf("║ [1] - Jogar                              ║\n");
+    printf("+------------------------------------------+\n");
+    printf("| 👤 %s", player.nickname);
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    spaces = 42 - (6 + ft_double_length(player.balance));
+    printf("| 💰 %.2f €", player.balance);
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("+------------------------------------------+\n");
+    printf("| [1] - Jogar                              |\n");
     if(!is_guest)
     {    
-        printf("║ [2] - Ver estatistica                    ║\n");
+        printf("| [2] - Ver estatistica                    |\n");
         flag = 3;
     }
     if(player.balance == 0)
     {
-        printf("║ [%d] - Adicionar 250 ao saldo             ║\n", flag);
+        printf("| [%d] - Adicionar 250 ao saldo             |\n", flag);
         if(!is_guest)
             flag = 4;
         else
             flag = 3;
         
     }
-    printf("║ [%d] - Sair                               ║\n", flag);
-    printf("╚══════════════════════════════════════════╝\n");
+    printf("| [%d] - Sair                               |\n", flag);
+    printf("+------------------------------------------+\n");
     printf("-> ");
     while (scanf("%d", &option) <= 0 || (option < 1 || option > flag))
     {
@@ -243,51 +222,51 @@ void ft_show_stats(PLAYER player)
 {
     int spaces = 42 - (4 + strlen(player.nickname));
     system("clear");
-    printf("╔══════════════════════════════════════════╗\n");
-    printf("║ 👤 %s", player.nickname);
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("╠══════════════════════════════════════════╣\n");
-    printf("║                                          ║\n");
-    printf("║ Total de jogos: %zu", player.total_games);
+    printf("+------------------------------------------+\n");
+    printf("| 👤 %s", player.nickname);
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("|------------------------------------------|\n");
+    printf("|                                          |\n");
+    printf("| Total de jogos: %zu", player.total_games);
     spaces = 42 - (17 + ft_size_t_length(player.total_games));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║ Total de vitórias: %zu", player.total_wins);
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("| Total de vitórias: %zu", player.total_wins);
     spaces = 42 - (20 + ft_size_t_length(player.total_wins));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║ Total de derrotas: %zu", player.total_loses);
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("| Total de derrotas: %zu", player.total_loses);
     spaces = 42 - (20 + ft_size_t_length(player.total_loses));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║ Total de empates: %zu", player.total_draw);
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("| Total de empates: %zu", player.total_draw);
     spaces = 42 - (19 + ft_size_t_length(player.total_draw));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║                                          ║\n");
-    printf("║ Maior vitória: %.2f", player.max_win);
-    spaces = 42 - (19 + ft_double_length(player.max_win));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║ Maior derrota: %.2f", player.max_lose);
-    spaces = 42 - (19 + ft_double_length(player.max_lose));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║                                          ║\n");
-    printf("║ Total ganho: %.2f", player.total_win);
-    spaces = 42 - (17 + ft_double_length(player.total_win));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║ Total perdido: %.2f", player.total_lose);
-    spaces = 42 - (19 + ft_double_length(player.total_lose));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("║ Profit: %.2f", player.total_win + player.total_lose); //alterar que não está 100% bem
-    spaces = 42 - (11 + ft_double_length(player.total_lose));
-    ft_spaces(spaces);
-    printf("║\n");
-    printf("╚══════════════════════════════════════════╝\n");
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("|                                          |\n");
+    printf("| Maior vitória: %.2f", player.max_win);
+    spaces = 42 - (16 + ft_double_length(player.max_win));
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("| Maior derrota: %.2f", player.max_lose);
+    spaces = 42 - (16 + ft_double_length(player.max_lose));
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("|                                          |\n");
+    printf("| Total ganho: %.2f", player.total_win);
+    spaces = 42 - (14 + ft_double_length(player.total_win));
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("| Total perdido: %.2f", player.total_lose);
+    spaces = 42 - (16 + ft_double_length(player.total_lose));
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("| Profit: %.2f", player.total_win + player.total_lose); 
+    spaces = 42 - (9 + ft_double_length(player.total_lose));
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("+------------------------------------------+\n");
 
 }
 
@@ -339,7 +318,6 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
        
         if(player_points > 21 || player_points < dealer_points)
         {
-            printf("\n[ PERDEU ]");
             if(!total_hand)
             {
                 ft_clean_input();
@@ -349,7 +327,6 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
         }
         else if(player_points > dealer_points)
         {   
-            printf("\n[ GANHOU ]");
             if(!total_hand)
             {
                 ft_clean_input();
@@ -360,7 +337,6 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
         }
         else
         {   
-            printf("\n[ EMPATE ]");
             if(!total_hand)
             {
                 ft_clean_input();
@@ -371,4 +347,34 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
         player_hand = player_hand->next;
     }
     return retrn;
+}
+
+void ft_in_game_hud(PLAYER player, double *side_bets, double *side_wins, double bet)
+{
+    double total_bet = 0;
+    for(int i = 0; i < 4; i++)
+        total_bet += side_bets[i];
+    total_bet += bet;
+    int size_line = ft_double_length(player.balance) + ft_double_length(total_bet) + 37;
+    int tmp = size_line;
+    printf("+");
+    ft_print_char(size_line, '-');
+    printf("+\n");
+    printf("| 💰 Saldo: %.2f € ║ 🪙 Total Apostado: %.2f€ ", player.balance, total_bet); 
+    printf("|\n");
+    printf("+");
+    ft_print_char(size_line, '-');
+    printf("+\n");
+    printf("| [HOT 3]: %.2f    [PERFECT PAIR]: %.2f", side_wins[0], side_wins[1]);
+    tmp -= ft_double_length(side_wins[0]) + ft_double_length(side_wins[1]) + 30;
+    ft_print_char(tmp, ' ');
+    printf("|\n");
+    printf("| [21 + 3]: %.2f   [BUST IT]: %.2f", side_wins[2], side_wins[3]);
+    tmp = size_line;
+    tmp -= ft_double_length(side_wins[2]) + ft_double_length(side_wins[3]) + 25;
+    ft_print_char(tmp, ' ');
+    printf("|\n");
+    printf("+");
+    ft_print_char(size_line, '-');
+    printf("+\n\n");
 }

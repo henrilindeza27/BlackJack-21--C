@@ -217,7 +217,7 @@ int ft_load_player(char *nickname, PLAYER *player)
     return 0;
 }
 
-int ft_player_menu_logic(PLAYER *player)//Corrigir a logica do ft_ask_to_continue() (continua dentro do if)
+int ft_player_menu_logic(PLAYER *player)
 {
     int option = ft_player_menu();
 
