@@ -236,8 +236,8 @@ void ft_show_stats(PLAYER player)
     spaces = 42 - (20 + ft_size_t_length(player.total_wins));
     ft_print_char(spaces, ' ');
     printf("|\n");
-    printf("| Total de derrotas: %zu", player.total_loses);
-    spaces = 42 - (20 + ft_size_t_length(player.total_loses));
+    printf("| Total de derrotas: %zu", player.total_bets);
+    spaces = 42 - (20 + ft_size_t_length(player.total_bets));
     ft_print_char(spaces, ' ');
     printf("|\n");
     printf("| Total de empates: %zu", player.total_draw);
@@ -258,12 +258,12 @@ void ft_show_stats(PLAYER player)
     spaces = 42 - (14 + ft_double_length(player.total_win));
     ft_print_char(spaces, ' ');
     printf("|\n");
-    printf("| Total perdido: %.2f", player.total_lose);
-    spaces = 42 - (16 + ft_double_length(player.total_lose));
+    printf("| Total apostado: %.2f", player.total_bet);
+    spaces = 42 - (17 + ft_double_length(player.total_bet));
     ft_print_char(spaces, ' ');
     printf("|\n");
-    printf("| Profit: %.2f", player.total_win + player.total_lose); 
-    spaces = 42 - (9 + ft_double_length(player.total_lose));
+    printf("| Profit: %.2f", player.total_win - player.total_bet); 
+    spaces = 42 - (8 + ft_double_length(player.total_bet));
     ft_print_char(spaces, ' ');
     printf("|\n");
     printf("+------------------------------------------+\n");
@@ -349,18 +349,27 @@ int ft_check_result(HandNode *player_hand, HandNode *dealer_hand, int flag)
     return retrn;
 }
 
-void ft_in_game_hud(PLAYER player, double *side_bets, double *side_wins, double bet)
+void ft_in_game_hud(PLAYER player,double *total_bet , double *side_bets, double *side_wins, double bet, int double_flag, double first_play)
 {
-    double total_bet = 0;
-    for(int i = 0; i < 4; i++)
-        total_bet += side_bets[i];
-    total_bet += bet;
-    int size_line = ft_double_length(player.balance) + ft_double_length(total_bet) + 37;
+    static int flag_to_enter_one_time = 0;
+    if(!first_play)
+    {
+        for(int i = 0; i < 4; i++)
+            *total_bet += side_bets[i];
+        *total_bet += bet;
+        flag_to_enter_one_time = 0;
+    }
+    else if(double_flag == 2 && !flag_to_enter_one_time)
+    {    
+        *total_bet += bet;
+        flag_to_enter_one_time++;
+    }
+    int size_line = ft_double_length(player.balance) + ft_double_length(*total_bet) + 37;
     int tmp = size_line;
     printf("+");
     ft_print_char(size_line, '-');
     printf("+\n");
-    printf("| 💰 Saldo: %.2f € ║ 🪙 Total Apostado: %.2f€ ", player.balance, total_bet); 
+    printf("| 💰 Saldo: %.2f € ║ 🪙 Total Apostado: %.2f€ ", player.balance, *total_bet); 
     printf("|\n");
     printf("+");
     ft_print_char(size_line, '-');

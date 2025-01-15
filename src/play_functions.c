@@ -54,7 +54,7 @@ int ft_ask_insurance()
     return option;
 }
 
-int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,int *cards_played, int number_decks, PLAYER *player, double bet, int *flag, double *side_bets, double *side_wins)
+int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,int *cards_played, int number_decks, PLAYER *player, double bet, int *flag, double *side_bets, double *side_wins, double *total_bet)
 {
     int option;
     char *dhand = dealer_hand->hand[1];
@@ -72,17 +72,17 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             if(op == 1)
             {    
                 player->balance -= (bet / 2);
-                player->total_lose -= (bet / 2);  
+                player->total_bet -= (bet / 2);  
             }
             if(ft_calculate_hand_points(dealer_hand, 0 , 0) == 21)
             {  
                 
-                ft_print_played_cards(0, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+                ft_print_played_cards(0, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
                 return 0;
             }
             else
             {
-                ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+                ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
                 printf("[ O dealer não tem blackjack ]\n");
             }
             
@@ -93,12 +93,12 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             if(ft_calculate_hand_points(dealer_hand, 0 , 0) == 21)
             {  
                 
-                ft_print_played_cards(0, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+                ft_print_played_cards(0, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
                 return 0;
             }
             else
             {
-                ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+                ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
                 printf("[ O dealer não tem blackjack ]\n");
             }
         }
@@ -110,7 +110,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             if(ft_calculate_hand_points(*player_hand, 0 , 0) != 21)
             {
                 system("clear");
-                ft_print_played_cards(0, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+                ft_print_played_cards(0, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
                 return 1;
             }
             return 0;
@@ -118,7 +118,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
         else
         {
             system("clear");
-            ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+            ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
             printf("[ O dealer não tem blackjack ]\n");
         }
         
@@ -133,7 +133,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             can_split = 0;
             system("clear");
             ft_player_single_play(deck, *player_hand, cards_played, number_decks);
-            ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+            ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
             if(ft_calculate_hand_points(*player_hand, 0 , 0) > 21)
                 return 1;
                 
@@ -146,19 +146,19 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
                 *flag = 2;
                 player->balance -= bet;
                 ft_player_single_play(deck, *player_hand, cards_played, number_decks);
-                ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+                ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
                 if(ft_calculate_hand_points(*player_hand, 0 , 0) > 21)
                     return 1;
                 break;
             }
-            ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet);
+            ft_print_played_cards(1, *player_hand,  dealer_hand, *player, side_bets, side_wins, bet, *flag, total_bet);
         }
         else if(option == 3 && player->balance >= bet  && can_split)
         {
             first_play = 0;
             can_split = 0;
             player->balance -= bet;
-            if(ft_split(deck, player_hand, dealer_hand, cards_played, number_decks, *player, side_bets, side_wins, bet) == 2)
+            if(ft_split(deck, player_hand, dealer_hand, cards_played, number_decks, *player, side_bets, side_wins, bet, total_bet) == 2)
                 return 1;
             break;
         }
@@ -166,19 +166,19 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
     return 0;
 }
 
-int ft_dealer_play(char ***deck, HandNode *dealer_hand, HandNode *player_hand, int *cards_played, int number_decks, PLAYER player, double *side_bets, double *side_wins, double bet)
+int ft_dealer_play(char ***deck, HandNode *dealer_hand, HandNode *player_hand, int *cards_played, int number_decks, PLAYER player, double *side_bets, double *side_wins, double bet, int double_flag, double *total_bet)
 {
     usleep(50000);
     system("clear"); 
     
-    ft_print_played_cards(0, player_hand, dealer_hand, player, side_bets, side_wins, bet);
+    ft_print_played_cards(0, player_hand, dealer_hand, player, side_bets, side_wins, bet, double_flag, total_bet);
 
     while (ft_calculate_hand_points(dealer_hand, 1, 0) < 17)
     {
         usleep(700000); 
         system("clear");
         ft_dealer_single_play(deck, dealer_hand, cards_played, number_decks);
-        ft_print_played_cards(0, player_hand, dealer_hand, player, side_bets, side_wins, bet);
+        ft_print_played_cards(0, player_hand, dealer_hand, player, side_bets, side_wins, bet, double_flag, total_bet);
 
         if (ft_calculate_hand_points(dealer_hand, 1, 0) > 21)
             return 1; 
@@ -188,7 +188,7 @@ int ft_dealer_play(char ***deck, HandNode *dealer_hand, HandNode *player_hand, i
 
 
 
-int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet, int *split_flag, int *double_flag, double *side_bets, double **side_bet_win)
+int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *player, double bet, int *split_flag, int *double_flag, double *side_bets, double **side_bet_win, double *total_bet)
 {
     HandNode *player_hand = ft_create_hand_node(NULL, 0);
     HandNode *dealer_hand = ft_create_hand_node(NULL, 0);
@@ -196,30 +196,36 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
     int option;
     int dealer_bj = 0;
     int flag = 0;
-
+    *total_bet = 0;
 
     ft_shuffle_deck(deck, number_decks);
 
     ft_initial_play(deck, cards_played, number_decks, player_hand, dealer_hand);
-    *side_bet_win = ft_check_side_bets_win(side_bets, player, player_hand, dealer_hand);
-    ft_print_played_cards(1, player_hand, dealer_hand, *player, side_bets, *side_bet_win, bet);
+
+    if(ft_check_exist_side_bets(side_bets))
+        *side_bet_win = ft_check_side_bets_win(side_bets, player, player_hand, dealer_hand);
+    else
+        *side_bet_win = (double *)calloc(4, sizeof(double));
+
+    
+    ft_print_played_cards(1, player_hand, dealer_hand, *player, side_bets, *side_bet_win, bet, *double_flag, total_bet);
     
 
     if(ft_check_bj_player(player_hand, dealer_hand))
         flag = 3;
     if(flag != 3)
     {    
-        if(ft_player_play(deck, &player_hand, dealer_hand, cards_played, number_decks, player, bet, double_flag, side_bets, *side_bet_win))
+        if(ft_player_play(deck, &player_hand, dealer_hand, cards_played, number_decks, player, bet, double_flag, side_bets, *side_bet_win, total_bet))
             flag = -1 * (*double_flag);
     }   
            
     if(ft_total_hands(player_hand) == 2)
         *split_flag = 2;
-    if(ft_dealer_play(deck, dealer_hand, player_hand, cards_played, number_decks, *player, side_bets, *side_bet_win, bet))
+    if(ft_dealer_play(deck, dealer_hand, player_hand, cards_played, number_decks, *player, side_bets, *side_bet_win, bet, *double_flag, total_bet))
     {   
-        (*side_bet_win)[3] = ft_check_bust_win(side_bets[3], dealer_hand);
+        (*side_bet_win)[3] = ft_check_bust_win(side_bets[3], dealer_hand) + side_bets[3];
         system("clear");
-        ft_print_played_cards(0, player_hand, dealer_hand, *player, side_bets, *side_bet_win, bet);
+        ft_print_played_cards(0, player_hand, dealer_hand, *player, side_bets, *side_bet_win, bet, *double_flag, total_bet);
         if(flag != -1 * (*double_flag) && flag != 3)
             flag = 1 * (*double_flag) * (*split_flag);
     }
@@ -264,7 +270,7 @@ double ft_make_bet(PLAYER *player)
     return tmp;
 }
 
-void ft_update_balance(PLAYER *player, int result, double bet, int split_flag, int double_flag, double *side_win)
+void ft_update_balance(PLAYER *player, int result, double bet, int split_flag, int double_flag, double *side_win, double *total_win)
 {
     double amount_to_change = ft_check_bet(result, bet, split_flag, double_flag);
     for(int i = 0; i < 4; i++)
@@ -289,6 +295,7 @@ void ft_update_balance(PLAYER *player, int result, double bet, int split_flag, i
         printf("+\n");
         ft_wait_enter();
     }
+    *total_win = amount_to_change;
     player->balance += amount_to_change;
 }
 
@@ -310,6 +317,8 @@ void ft_play(char ***deck, int number_decks)
     int exit_flag = 3;
     int option = ft_main_menu(jogador, is_guest);
     int double_flag = 1;
+    double total_win;
+    double total_bet = 0;
     
 
     if(jogador.balance == 0)
@@ -329,14 +338,16 @@ void ft_play(char ***deck, int number_decks)
             else
             {
                 double *side_bets = ft_make_side_bet(&jogador);
-                double *side_wins = (double *)calloc(4, sizeof(double));
-                int result = ft_main_play(deck, &cards_played, number_decks, &jogador, aposta, &split_flag, &double_flag, side_bets, &side_wins);
+                double *side_wins = NULL;
+                int result = ft_main_play(deck, &cards_played, number_decks, &jogador, aposta, &split_flag, &double_flag, side_bets, &side_wins, &total_bet);
 
-                ft_update_balance(&jogador,result, aposta, split_flag, double_flag, side_wins);
-                ft_update_stats(&jogador, result, aposta, split_flag, double_flag);
+                ft_update_balance(&jogador,result, aposta, split_flag, double_flag, side_wins, &total_win);
+                ft_update_stats(&jogador, total_win, total_bet, result);
+                free(side_bets);
+                free(side_wins);
                 if(!is_guest)
                     ft_save_player(&jogador);
-                    
+                
                 option = ft_main_menu(jogador, is_guest);
             }
         }
@@ -362,8 +373,7 @@ void ft_play(char ***deck, int number_decks)
             exit_flag = 4;
         else
             exit_flag = 3;
-
-        
     }
+    ft_clear_player(&jogador);
     
 }

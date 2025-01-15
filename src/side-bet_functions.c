@@ -275,9 +275,21 @@ double *ft_check_side_bets_win(double *bets, PLAYER *player, HandNode *player_ha
         side_wins[1] = ft_check_ppair_win(bets[1], player_hand->hand);
     if(bets[2] != 0)
         side_wins[2] = ft_check_21_plus3_win(bets[2], player_hand->hand, dealer_hand->hand[1]);
-
+        
     side_wins[3] = 0;
 
     
     return side_wins;
+}
+
+int ft_check_exist_side_bets(double *sidebets)
+{
+    int flag = 0;
+    for(int i = 0; i < 4; i++)
+    {   
+        if(sidebets[i] > 0)
+            flag = 1;
+    } 
+    return flag;
+    
 }

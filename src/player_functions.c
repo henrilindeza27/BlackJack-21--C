@@ -19,6 +19,26 @@ char *ft_save_nickname(void)
 
     return nickname;
 }
+void ft_clear_player(PLAYER *player) 
+{
+    if (player == NULL) return;
+
+    if (player->nickname != NULL) 
+    {
+        free(player->nickname);
+        player->nickname = NULL;
+    }
+
+    player->balance = 0.0;
+    player->total_games = 0;
+    player->total_wins = 0;
+    player->total_bets = 0;
+    player->total_draw = 0;
+    player->max_win = 0.0;
+    player->max_lose = 0.0;
+    player->total_win = 0.0;
+    player->total_bet = 0.0;
+}
 
 int ft_check_nickname(char *nickname)
 {
@@ -81,10 +101,10 @@ PLAYER ft_create_player(int is_guest)
     player.max_win = 0;
     player.total_games = 0;
     player.total_wins = 0;
-    player.total_loses = 0;
+    player.total_bets = 0;
     player.total_draw = 0;
     player.total_win = 0;
-    player.total_lose = 0;
+    player.total_bet = 0;
 
     
     return player;
@@ -109,12 +129,12 @@ int ft_save_player(PLAYER *player)
                 player->balance,
                 player->total_games,
                 player->total_wins,
-                player->total_loses,
+                player->total_bets,
                 player->total_draw,
                 player->max_win,
                 player->max_lose,
                 player->total_win,
-                player->total_lose);
+                player->total_bet);
         fclose(file);
     }
     else
@@ -142,12 +162,12 @@ int ft_save_player(PLAYER *player)
                     player->balance,
                     player->total_games,
                     player->total_wins,
-                    player->total_loses,
+                    player->total_bets,
                     player->total_draw,
                     player->max_win,
                     player->max_lose,
                     player->total_win,
-                    player->total_lose);
+                    player->total_bet);
             }
             else
                 fprintf(temp_file, "%s", line);
@@ -199,12 +219,12 @@ int ft_load_player(char *nickname, PLAYER *player)
             player->balance = atof(fields[1]);
             player->total_games = strtoul(fields[2], NULL, 10);
             player->total_wins = strtoul(fields[3], NULL, 10);
-            player->total_loses = strtoul(fields[4], NULL, 10);
+            player->total_bets = strtoul(fields[4], NULL, 10);
             player->total_draw = strtoul(fields[5], NULL, 10);
             player->max_win = atof(fields[6]);
             player->max_lose = atof(fields[7]);
             player->total_win = atof(fields[8]);
-            player->total_lose = atof(fields[9]);
+            player->total_bet = atof(fields[9]);
             free(line); 
             fclose(file_players);
             return 1; 
@@ -289,29 +309,24 @@ int ft_player_menu_logic(PLAYER *player)
 }
 
 
-void ft_update_stats(PLAYER *player, int result, double bet, int split_flag, int double_flag)
+void ft_update_stats(PLAYER *player, double total_win,double total_bet, int result)
 {
-    double amount = 0;
-    if(result >= 0)
-        amount = ft_check_bet(result, bet, split_flag, double_flag);
-    else
-        amount += (result * bet);
+    
 
     player->total_games++;
-    if(!amount)
+    if(!result)
         player->total_draw++;
-    else if(amount > 0)
-    {
+    else if(result > 0)
         player->total_wins++;
-        player->total_win += amount - bet;
-        if(amount > player->max_win)
-            player->max_win = amount;
-    }
     else
-    {
-        player->total_loses++;
-        player->total_lose += amount;
-        if(amount < player->max_lose)
-            player->max_lose = amount;
-    }
+        player->total_bets++;
+
+    player->total_win += total_win;
+    if(total_win > player->max_win)
+        player->max_win = total_win;
+   
+    player->total_bet += total_bet;
+    if(total_win - total_bet < player->max_lose)
+        player->max_lose = total_win - total_bet;
+    
 }
