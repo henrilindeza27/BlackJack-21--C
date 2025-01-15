@@ -40,6 +40,7 @@ make
 5. **Estatísticas**: No final de cada jogo, podes ver as tuas estatísticas e decidir se queres continuar a jogar ou sair.
 
 
+## OFF TOPIC
 -**Lista de afazeres**
 - [x] Funcionalidade do split 
 - [x] Interface melhor
