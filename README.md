@@ -17,6 +17,13 @@ Para compilar o jogo, abre o terminal e navega até ao diretório do projeto. Em
 ```sh
 make exec
 ```
+ou então:
+```sh
+make
+```
+```sh
+./blackjack
+```
 ## Funcionalidades do Jogo
 
 - **Gestão de Jogadores**: Podes criar, carregar e guardar jogadores.
