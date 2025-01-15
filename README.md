@@ -19,6 +19,9 @@ que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será dis
 - [x] Dar fix aos status
 - [x] Dar fix a leaks
 - [x] Colocar limite minimo de bet (0.2)
+- [ ] Quando for a carregar user mostrar lista de useres existentes
+- [ ] Adicionar no menu principal uma opção para sair da conta
+- [ ] Adicionar opção de eliminar conta
 
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
