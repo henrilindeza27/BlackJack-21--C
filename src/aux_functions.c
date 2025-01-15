@@ -196,7 +196,7 @@ int ft_main_menu(PLAYER player, int is_guest)
         printf("| [2] - Ver estatistica                    |\n");
         flag = 3;
     }
-    if(player.balance == 0)
+    if(player.balance < 1)
     {
         printf("| [%d] - Adicionar 250 ao saldo             |\n", flag);
         if(!is_guest)
@@ -262,8 +262,8 @@ void ft_show_stats(PLAYER player)
     spaces = 42 - (17 + ft_double_length(player.total_bet));
     ft_print_char(spaces, ' ');
     printf("|\n");
-    printf("| Profit: %.2f", player.total_win - player.total_bet); 
-    spaces = 42 - (8 + ft_double_length(player.total_bet));
+    printf("| Profit: %.2f", player.total_win - player.total_bet);
+    spaces = 42 - (9 + ft_double_length(player.total_win - player.total_bet));
     ft_print_char(spaces, ' ');
     printf("|\n");
     printf("+------------------------------------------+\n");

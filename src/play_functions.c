@@ -72,7 +72,7 @@ int ft_player_play(char ***deck, HandNode **player_hand, HandNode *dealer_hand ,
             if(op == 1)
             {    
                 player->balance -= (bet / 2);
-                player->total_bet -= (bet / 2);  
+                player->total_bet += (bet / 2);  
             }
             if(ft_calculate_hand_points(dealer_hand, 0 , 0) == 21)
             {  
