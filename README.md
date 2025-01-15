@@ -59,7 +59,3 @@ make
 - [ ] Quando for a carregar user mostrar lista de useres existentes
 - [ ] Adicionar no menu principal uma opção para sair da conta
 - [ ] Adicionar opção de eliminar conta
-
-
-## Para executar basta fazer o comando **"make"** no repositório clonado
-
