@@ -1,8 +1,37 @@
-# BlackJack 21
+# Jogo de Blackjack
 
-(Alguns erros de formatação podem aparecer)
-O jogo está completamente funcional onde podem criar conta, carregar alguma que já esteja criada ou jogar como guest, o saldo começa em 1000 (guest ou conta nova), qualquer aposta é válida desde
-que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será disponibilizada uma opção para adiconar mais 250
+Bem-vindo ao meu jogo de Blackjack! Este projeto foi desenvolvido em C e permite que jogues Blackjack contra um dealer, com várias funcionalidades interessantes, como apostas laterais e gestão de jogadores.
+
+## Estrutura do Projeto
+
+O projeto está organizado da seguinte forma:
+
+- **inc/**: Contém os ficheiros de cabeçalho.
+- **src/**: Contém os ficheiros de código fonte.
+- **users/**: Contém os dados dos jogadores.
+- **Makefile**: Script para compilar o projeto.
+
+## Como Compilar e Executar
+
+Para compilar o jogo, abre o terminal e navega até ao diretório do projeto. Em seguida, executa o comando:
+```sh
+make exec
+```
+## Funcionalidades do Jogo
+
+- **Gestão de Jogadores**: Podes criar, carregar e guardar jogadores.
+- **Apostas Laterais**: O jogo suporta várias apostas laterais, como HOT 3, PERFECT PAIR, 21 + 3 e BUST IT.
+- **Estatísticas do Jogador**: O jogo exibe estatísticas detalhadas do jogador, como total de jogos, vitórias, apostas e ganhos.
+- **Interface de Jogo**: Uma interface de texto simples e intuitiva para jogar Blackjack contra o dealer.
+
+## Como Jogar
+
+1. **Menu Principal**: Ao iniciar o jogo, verás o menu principal onde podes escolher entre criar um novo jogador, carregar um jogador existente ou jogar como convidado.
+2. **Fazer Apostas**: Após escolheres ou criares um jogador, podes fazer as tuas apostas.
+3. **Jogar**: Joga as tuas cartas contra o dealer, tentando chegar o mais próximo possível de 21 pontos sem ultrapassar.
+4. **Apostas Laterais**: Além da aposta principal, podes fazer apostas laterais para aumentar as tuas chances de ganhar.
+5. **Estatísticas**: No final de cada jogo, podes ver as tuas estatísticas e decidir se queres continuar a jogar ou sair.
+
 
 -**Lista de afazeres**
 - [x] Funcionalidade do split 
