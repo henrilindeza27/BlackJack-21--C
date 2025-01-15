@@ -18,6 +18,7 @@ que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será dis
 - [x] Resolver o erro de atualizar o saldo no split
 - [ ] Dar fix aos status
 - [x] Dar fix a leaks
+- [ ] Colocar limite minimo de bet (0.1)
 
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
