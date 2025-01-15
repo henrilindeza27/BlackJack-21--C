@@ -167,7 +167,7 @@ double *ft_make_side_bet(PLAYER *player)
         printf("+----------------------------------+\n");
         printf("|             SIDE BETS            |\n");
         printf("+----------------------------------+\n");
-        printf("| Digite 0 para sair               |\n");
+        printf("| Digite 0 se não quiser fazer bet |\n");
         printf("| 💰 %.2f €", player->balance);
         ft_print_char(spaces, ' ');
         printf("|\n");
@@ -180,7 +180,7 @@ double *ft_make_side_bet(PLAYER *player)
             printf(" ⛃ [21 + 3]: ");
         else if(i == 3)
             printf(" ⛃ [BUST IT]: ");
-        while (scanf("%lf", &tmp) <= 0 || tmp < 0 || tmp > player->balance)
+        while (scanf("%lf", &tmp) <= 0 || (tmp != 0 && (tmp < 0.2 || tmp > player->balance)))
         {
             printf("[ Valor de aposta inválido ]\n");
             if(i == 0)

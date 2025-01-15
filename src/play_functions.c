@@ -259,7 +259,7 @@ double ft_make_bet(PLAYER *player)
     printf("|\n");
     printf("+----------------------------------+\n");
     printf(" ⛃ Bet: ");
-    while (scanf("%lf", &tmp) <= 0 || tmp < 0 || tmp > player->balance)
+    while (scanf("%lf", &tmp) <= 0 || (tmp != 0 && (tmp < 0.2 || tmp > player->balance)))
     {
         printf("[ Valor de aposta inválido ]\n");
         printf(" ⛃ Bet: ");
