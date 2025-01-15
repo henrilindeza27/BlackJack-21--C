@@ -16,7 +16,7 @@ que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será dis
 - [x] Se o dealer tiver um 10 verificar se tem bj
 - [x] Side bets
 - [x] Resolver o erro de atualizar o saldo no split
-- [x] Dar fix aos status
+- [ ] Dar fix aos status
 - [x] Dar fix a leaks
 
 
