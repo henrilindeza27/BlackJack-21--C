@@ -16,9 +16,9 @@ que não seja negativa ou ultrapasse o saldo. Caso o saldo chegue ao 0 será dis
 - [x] Se o dealer tiver um 10 verificar se tem bj
 - [x] Side bets
 - [x] Resolver o erro de atualizar o saldo no split
-- [ ] Dar fix aos status
+- [x] Dar fix aos status
 - [x] Dar fix a leaks
-- [ ] Colocar limite minimo de bet (0.1)
+- [x] Colocar limite minimo de bet (0.2)
 
 
 ## Para executar basta fazer o comando **"make"** no repositório clonado
