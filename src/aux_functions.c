@@ -133,7 +133,7 @@ int ft_double_length(double num)
         num = fabs(num);
     }
 
-    int int_part = (int)num;
+    long long int int_part = (long long int)num;
     if (int_part == 0) 
         length++; 
     else 
@@ -369,7 +369,7 @@ void ft_in_game_hud(PLAYER player,double *total_bet , double *side_bets, double 
     printf("+");
     ft_print_char(size_line, '-');
     printf("+\n");
-    printf("| 💰 Saldo: %.2f € ║ 🪙 Total Apostado: %.2f€ ", player.balance, *total_bet); 
+    printf("| 💰 Saldo: %.2f € | 🪙 Total Apostado: %.2f€ ", player.balance, *total_bet); 
     printf("|\n");
     printf("+");
     ft_print_char(size_line, '-');

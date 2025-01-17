@@ -6,6 +6,7 @@ OBJS = $(SRCS:.c=.o)
 
 #valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes
 FLAGS = -Wall -Wextra -Werror -Iinc/ #-fsanitize=address -g 
+#hlindeza;141250.00;84;37;35;12;120000.00;-9500.00;289518.00;151018.00
 
 all: $(NAME_PROJECT)
 

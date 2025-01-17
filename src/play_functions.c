@@ -246,12 +246,12 @@ int ft_main_play(char ***deck, int *cards_played, int number_decks, PLAYER *play
 }
 
 
-double ft_make_bet(PLAYER *player)
+double ft_make_bet(PLAYER *player)// Escalar ao tamanho do balance
 {
     double tmp;
     int spaces = 34 - (6 + ft_double_length(player->balance));
     printf("+----------------------------------+\n");
-    printf("|        APOSTA PRINCIPAL          |\n");
+    printf("|         APOSTA PRINCIPAL         |\n");
     printf("+----------------------------------+\n");
     printf("| Digite 0 para sair               |\n");
     printf("| 💰 %.2f €", player->balance);
