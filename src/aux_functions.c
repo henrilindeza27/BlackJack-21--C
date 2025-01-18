@@ -262,8 +262,22 @@ void ft_show_stats(PLAYER player)
     spaces = 42 - (17 + ft_double_length(player.total_bet));
     ft_print_char(spaces, ' ');
     printf("|\n");
-    printf("| Profit: %.2f", player.total_win - player.total_bet);
-    spaces = 42 - (9 + ft_double_length(player.total_win - player.total_bet));
+    printf("| Aposta média: %.2f", player.total_bet / player.total_games);
+    spaces = 42 - (15 + ft_double_length(player.total_bet / player.total_games));
+    ft_print_char(spaces, ' ');
+    printf("|\n");
+    printf("|                                          |\n");
+
+    if(player.total_win - player.total_bet > 0)
+    { 
+        printf("| Profit: +%.2f", player.total_win - player.total_bet);
+        spaces = 42 - (10 + ft_double_length(player.total_win - player.total_bet));
+    }
+    else
+    { 
+        printf("| Profit: %.2f", player.total_win - player.total_bet);
+        spaces = 42 - (9 + ft_double_length(player.total_win - player.total_bet));
+    } 
     ft_print_char(spaces, ' ');
     printf("|\n");
     printf("+------------------------------------------+\n");
