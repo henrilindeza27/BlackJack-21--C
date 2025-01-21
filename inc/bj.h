@@ -100,4 +100,6 @@ int ft_check_same_naipe(char **player_hand, char *dealer_card);
 int ft_check_same_value(char **player_hand, char *dealer_card);
 int ft_check_exist_side_bets(double *sidebets);
 
+void ft_show_registered_players();
+
 #endif

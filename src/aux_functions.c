@@ -205,10 +205,11 @@ int ft_main_menu(PLAYER player, int is_guest)
             flag = 3;
         
     }
-    printf("| [%d] - Sair                               |\n", flag);
+    printf("| [%d] - Encerrar                           |\n", flag);
+    printf("| [%d] - Terminar Sessão                    |\n", flag + 1);
     printf("+------------------------------------------+\n");
     printf("-> ");
-    while (scanf("%d", &option) <= 0 || (option < 1 || option > flag))
+    while (scanf("%d", &option) <= 0 || (option < 1 || option > flag + 1))
     {
         printf("[ Opção inválida inválida ]\n");
         printf("-> ");

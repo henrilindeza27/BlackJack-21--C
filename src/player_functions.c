@@ -112,7 +112,7 @@ PLAYER ft_create_player(int is_guest)
 
 int ft_save_player(PLAYER *player)
 {
-    FILE *file = fopen(file_name, "r+"); // Abrir em modo de leitura e escrita
+    FILE *file = fopen(file_name, "r+");
     if (!file)
     {
         perror("Erro ao abrir o arquivo para salvar jogador");
@@ -183,7 +183,7 @@ int ft_save_player(PLAYER *player)
         rename("temp_file.txt", file_name);
     }
 
-    return 1; // Sucesso
+    return 1;
 }
 
 int ft_load_player(char *nickname, PLAYER *player)
@@ -237,6 +237,21 @@ int ft_load_player(char *nickname, PLAYER *player)
     return 0;
 }
 
+int ft_is_file_empty()
+{
+    FILE *file = fopen(file_name, "r");
+    if (!file)
+    {
+        printf("Erro ao abrir o arquivo\n");
+        return -1; 
+    }
+
+    fseek(file, 0, SEEK_END); 
+    long size = ftell(file); 
+    fclose(file);
+
+    return size == 0; 
+}
 int ft_player_menu_logic(PLAYER *player)
 {
     int option = ft_player_menu();
@@ -246,12 +261,22 @@ int ft_player_menu_logic(PLAYER *player)
         
         if(option == 1)
         {
-            if(ft_ask_to_continue() == 2)   
+            if(ft_is_file_empty())
+            {
+                printf("Não existem jogadores salvos! Crie um primeiro!\n");
+                ft_clean_input();
+                ft_wait_enter();
+                system("clear");
+                option = ft_player_menu(); 
+                continue;
+            }
+            else if(ft_ask_to_continue() == 2)   
             {   
                 system("clear");
                 option = ft_player_menu(); 
                 continue;
             }
+            ft_show_registered_players();
             char user[100];
             ft_clean_input();
 
@@ -311,8 +336,6 @@ int ft_player_menu_logic(PLAYER *player)
 
 void ft_update_stats(PLAYER *player, double total_win,double total_bet, int result)
 {
-    
-
     player->total_games++;
     if(!result)
         player->total_draw++;
@@ -328,5 +351,106 @@ void ft_update_stats(PLAYER *player, double total_win,double total_bet, int resu
     player->total_bet += total_bet;
     if(total_win - total_bet < player->max_lose)
         player->max_lose = total_win - total_bet;
-    
 }
+
+void ft_check_max_player_size(char ***players, int player_count, int *name_size, int *balance_size)
+{
+    if(!players)
+        return;
+
+    for (int i = 0; i < player_count; i++)
+    {
+        if(strlen(players[i][0]) > *name_size)
+            *name_size = strlen(players[i][0]);
+        if(strlen(players[i][1]) > *balance_size)
+            *balance_size = strlen(players[i][1]);
+    }
+}
+
+void free_players_matrix(char ***players, int player_count)
+{
+    for (int i = 0; i < player_count; i++)
+    {
+        free(players[i][0]); 
+        free(players[i][1]); 
+        free(players[i]);    
+    }
+    free(players); 
+}
+
+void ft_banner_players(char ***players, int player_count)
+{
+    int name_size = 0;
+    int balance_size = 0;
+
+    ft_check_max_player_size(players, player_count, &name_size, &balance_size);
+
+    int line_size = 13   + name_size + balance_size;
+
+    system("clear");
+    printf("+");
+    ft_print_char(line_size, '-');
+    printf("+\n");
+    for(int i = 0; i < player_count; i++)
+    {
+        printf("| 👤 %s", players[i][0]);
+        ft_print_char((name_size - strlen(players[i][0])) + 1, ' ');
+        printf("| 💰 %s €", players[i][1]);
+        ft_print_char((balance_size - strlen(players[i][1])) + 1, ' ');
+        printf("|\n");
+        if(i + 1 < player_count)
+        {
+            printf("|");
+            ft_print_char(line_size, '-');
+            printf("|\n");
+        }
+    }
+    printf("+");
+    ft_print_char(line_size, '-');
+    printf("+\n");
+
+}
+
+void ft_show_registered_players()
+{
+    FILE *file_players = fopen(file_name, "r");
+    if (!file_players)
+    {
+        printf("Erro ao abrir o ficheiro\n");
+        return;
+    }
+
+    char *line = NULL;
+    size_t len = 0;
+
+    char ***players = NULL; 
+    int player_count = 0;
+
+    while (getline(&line, &len, file_players) != -1)
+    {
+        line[strcspn(line, "\n")] = '\0'; 
+
+        char *name = strtok(line, ";");        
+        char *balance = strtok(NULL, ";");     
+
+        if (name && balance)
+        {
+            players = realloc(players, (player_count + 1) * sizeof(char **));
+            players[player_count] = malloc(2 * sizeof(char *)); 
+
+            players[player_count][0] = strdup(name);    
+            players[player_count][1] = strdup(balance); 
+            player_count++;
+        }
+    }
+
+    fclose(file_players);
+    if (line)
+        free(line);
+
+    ft_banner_players(players, player_count);
+
+    free_players_matrix(players, player_count);
+}
+
+
