@@ -56,6 +56,6 @@ make
 - [x] Dar fix aos status
 - [x] Dar fix a leaks
 - [x] Colocar limite minimo de bet (0.2)
-- [ ] Quando for a carregar user mostrar lista de useres existentes
-- [ ] Adicionar no menu principal uma opção para sair da conta
+- [x] Quando for a carregar user mostrar lista de useres existentes
+- [x] Adicionar no menu principal uma opção para sair da conta
 - [ ] Adicionar opção de eliminar conta
