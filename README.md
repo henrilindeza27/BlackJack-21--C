@@ -40,7 +40,7 @@ make
 5. **Estatísticas**: No final de cada jogo, podes ver as tuas estatísticas e decidir se queres continuar a jogar ou sair.
 
 
-## OFF TOPIC
+## TODO
 -**Lista de afazeres**
 - [x] Funcionalidade do split 
 - [x] Interface melhor
@@ -59,4 +59,4 @@ make
 - [x] Quando for a carregar user mostrar lista de useres existentes
 - [x] Adicionar no menu principal uma opção para sair da conta
 - [ ] Adicionar opção de eliminar conta
-- [ ] fix na lógica do menu de jogo
+- [x] fix na lógica do menu de jogo
