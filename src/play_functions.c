@@ -364,6 +364,11 @@ void ft_play(char ***deck, int number_decks)
             option = ft_main_menu(jogador, is_guest);
             
         }
+        else if(option == 3)
+        {
+            ft_add_balance(&jogador);
+            option = ft_main_menu(jogador, is_guest);
+        } 
         else if((option == exit_flag + 1) || (is_guest && (option == exit_flag)))
         {
             op = ft_player_menu_logic(&jogador);
@@ -375,11 +380,6 @@ void ft_play(char ***deck, int number_decks)
                 is_guest = 1;
             option = ft_main_menu(jogador, is_guest);
         }
-        else if(jogador.balance < 0 && option == 3)
-        {
-            ft_add_balance(&jogador);
-            option = ft_main_menu(jogador, is_guest);
-        } 
         if(jogador.balance == 0)
             exit_flag = 4;
         else

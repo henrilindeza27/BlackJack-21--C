@@ -296,6 +296,7 @@ void ft_show_stats(PLAYER player)
 void ft_add_balance(PLAYER *player)
 {
     player->balance += 250;
+    ft_save_player(player);
 }
 
 int ft_ask_to_continue(void)
