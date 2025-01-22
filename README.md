@@ -59,3 +59,4 @@ make
 - [x] Quando for a carregar user mostrar lista de useres existentes
 - [x] Adicionar no menu principal uma opção para sair da conta
 - [ ] Adicionar opção de eliminar conta
+- [ ] fix na lógica do menu de jogo
