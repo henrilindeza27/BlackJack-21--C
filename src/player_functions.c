@@ -452,5 +452,3 @@ void ft_show_registered_players()
 
     free_players_matrix(players, player_count);
 }
-
-

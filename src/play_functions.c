@@ -386,5 +386,4 @@ void ft_play(char ***deck, int number_decks)
             exit_flag = 3;
     }
     ft_clear_player(&jogador);
-    
 }

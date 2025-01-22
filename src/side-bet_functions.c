@@ -291,5 +291,4 @@ int ft_check_exist_side_bets(double *sidebets)
             flag = 1;
     } 
     return flag;
-    
 }
