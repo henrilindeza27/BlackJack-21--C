@@ -28,7 +28,7 @@ make
 
 - **Gestão de Jogadores**: Podes criar, carregar e guardar jogadores.
 - **Apostas Laterais**: O jogo suporta várias apostas laterais, como HOT 3, PERFECT PAIR, 21 + 3 e BUST IT.
-- **Estatísticas do Jogador**: O jogo exibe estatísticas detalhadas do jogador, como total de jogos, vitórias, apostas e ganhos.
+- **Estatísticas do Jogador**: O jogo exibe estatísticas detalhadas do jogador, como total de jogos, vitórias, apostas, ganhos...
 - **Interface de Jogo**: Uma interface de texto simples e intuitiva para jogar Blackjack contra o dealer.
 
 ## Como Jogar
