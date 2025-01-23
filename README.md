@@ -39,6 +39,8 @@ make
 4. **Apostas Laterais**: Além da aposta principal, podes fazer apostas laterais para aumentar as tuas chances de ganhar.
 5. **Estatísticas**: No final de cada jogo, podes ver as tuas estatísticas e decidir se queres continuar a jogar ou sair.
 
+## Demonstração
+![Descrição do GIF](demo.gif)
 
 ## TODO
 -**Lista de afazeres**
